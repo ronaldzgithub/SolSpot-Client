@@ -1,0 +1,76 @@
+.main {
+	position: relative;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(255, 255, 255, 0.75);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.logoContainer {
+	width: 100%;
+}
+
+.spot-header-card {
+	width: 600px;
+	height: 300px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 20px;
+	border-radius: 20px;
+	border: 1px solid #fff;
+	border-radius: 15px;
+	box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+	overflow: hidden;
+	position: relative;
+}
+
+.spot-header-card:before {
+	background-color: rgba(255, 255, 255, 0.801);
+	backdrop-filter: blur(10px) saturate(100%) contrast(45%) brightness(130%);
+	height: 100%;
+	position: absolute;
+	width: 100%;
+}
+
+.spot-header-card .col1 {
+	width: 300px;
+	height: auto;
+}
+
+.spot-header-card .col1 .pfp {
+	height: 200px;
+	width: 200px;
+	border-radius: 60px;
+	margin-left: 30px;
+	background-color: blue;
+}
+
+.spot-header-card .col2 {
+	width: 300px;
+	height: 100%;
+}
+
+.address-chip {
+	background-color: #333;
+	width: min-content;
+	padding: 8px 12px;
+	border-radius: 25px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.address-text {
+	color: white;
+}
+
+.copy-svg {
+	fill: white;
+	height: 20px;
+	width: 20px;
+	margin-left: 4px;
+	margin-right: 6px;
+}

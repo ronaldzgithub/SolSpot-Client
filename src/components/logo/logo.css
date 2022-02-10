@@ -1,0 +1,13 @@
+.logo {
+	color: red;
+	font-size: 84px;
+	font-weight: 800;
+	opacity: 0.9;
+	margin-left: 15px;
+	text-decoration: none;
+	cursor: pointer;
+	margin-bottom: 20px;
+	background: linear-gradient(to right, rgba(233, 63, 160, 1), rgba(255, 198, 48, 1));
+	-webkit-text-fill-color: transparent;
+	-webkit-background-clip: text;
+}

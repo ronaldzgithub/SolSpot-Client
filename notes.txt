@@ -1,0 +1,28 @@
+Resources
+
+Error Solving for Making Web3 Work with React
+https://github.com/ChainSafe/web3.js#web3-and-create-react-app
+
+
+Domain Name and Twitter Services (Solana Cookbook)
+https://solanacookbook.com/references/name-service.html#find-all-the-domain-names-owned-by-a-public-key
+
+
+Solana Interaction Integration
+https://lorisleiva.com/create-a-solana-dapp-from-scratch/our-first-instruction 
+
+
+Material Icons
+https://fonts.google.com/icons 
+
+
+Solana Docs
+https://solana-labs.github.io/solana-web3.js/ 
+
+
+Querying Solana
+https://www.abiraja.com/blog/querying-solana-blockchain 
+
+
+On-Chain Blog Tutorial
+https://learn.figment.io/tutorials/create-a-simple-blog-dapp-on-solana 

@@ -1,0 +1,42 @@
+.upperWords {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.title {
+	font-size: 24px;
+}
+
+.titleBtn {
+	font-size: 24px;
+	cursor: pointer;
+}
+
+.img {
+	background-color: gray;
+	height: 200px;
+	width: 200px;
+	border-radius: 25px;
+	margin: 10px;
+}
+
+.domain-card {
+	background-color: #333;
+	width: min-content;
+	min-width: 80px;
+	padding: 8px 12px;
+	border-radius: 25px;
+	color: white;
+	margin: 5px 0px;
+}
+
+.domain-card-null {
+	background-color: #333;
+	width: min-content;
+	min-width: 120px;
+	padding: 8px 12px;
+	border-radius: 25px;
+	color: white;
+	margin: 5px 0px;
+}

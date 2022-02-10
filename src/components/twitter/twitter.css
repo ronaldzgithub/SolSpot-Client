@@ -1,0 +1,48 @@
+.upperWords {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.title {
+	font-size: 24px;
+}
+
+.titleBtn {
+	font-size: 24px;
+	cursor: pointer;
+}
+
+.img {
+	background-color: gray;
+	height: 200px;
+	width: 200px;
+	border-radius: 25px;
+	margin: 10px;
+}
+
+.twitter-chip {
+	background-color: #08a0e9;
+	width: min-content;
+	min-width: 80px;
+	padding: 8px 12px;
+	border-radius: 25px;
+	color: white;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin: 5px 0px;
+	text-decoration: none;
+}
+
+.twitter-name {
+	text-decoration: none;
+}
+
+.twitter-svg {
+	height: 20px;
+	width: 20px;
+	margin-left: 4px;
+	margin-right: 6px;
+	fill: white;
+}
