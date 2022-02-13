@@ -1,6 +1,6 @@
 .app {
-	height: 100%;
-	width: 100%;
+	height: 100vh;
+	width: 100vw;
 	background: rgb(63, 114, 233);
 	background: linear-gradient(
 		135deg,

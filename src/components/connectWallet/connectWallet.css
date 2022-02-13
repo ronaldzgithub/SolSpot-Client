@@ -1,0 +1,12 @@
+.wallet-login-button {
+	all: unset;
+	background-color: #333;
+	border-radius: 15px;
+	height: 40px;
+	width: auto;
+	padding: 10px 20px;
+	color: white;
+	text-decoration: none;
+	cursor: pointer;
+	margin: 20px;
+}

@@ -1,4 +1,4 @@
-.main {
+.c-main {
 	position: relative;
 	height: 100%;
 	width: 100%;
@@ -8,27 +8,19 @@
 	align-items: center;
 }
 
-.logoContainer {
+.c-logoContainer {
+	all: unset;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 	width: 100%;
 }
 
-.pfp {
+.c-pfp {
 	height: 200px;
 	width: 200px;
 	border-radius: 150px;
 	background-color: red;
-}
-
-.createSpotBtn {
-	background-color: #333;
-	border-radius: 15px;
-	height: 20px;
-	width: auto;
-	padding: 10px 20px;
-	color: white;
-	text-decoration: none;
-	cursor: pointer;
-	margin: 20px;
 }
 
 .searchContainer {
@@ -63,15 +55,17 @@
 	font-weight: 200px;
 }
 
-.activeSearchBtn {
+.btn {
+	all: unset;
 	background-color: #333;
-	border-radius: 20px;
-	height: 25px;
+	border-radius: 15px;
+	height: 40px;
 	width: auto;
-	padding: 12.5px 20px;
+	padding: 10px 20px;
 	color: white;
 	text-decoration: none;
 	cursor: pointer;
+	margin: 20px;
 }
 
 .inactiveSearchBtn {
