@@ -1,141 +1,148 @@
-import React, { useState, useEffect } from 'react';
-import './createContentList.css'
-import ContentItem from "./contentItem"
+import React, { useState, useEffect } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
+import DeleteIcon from "assets/deleteIcon"
+import DragIcon from "assets/dragIcon"
+import "./createContentList.css"
+
+
+
+// reorders the list and the id's associated
+const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+    for (let i = 1; i < result.length + 1; i++) {
+        result[i - 1].id = i;
+    }
+    return result;
+};
+
+
+const grid = 8;
+
+const getItemStyle = (isDragging, draggableStyle) => ({
+    // some basic styles to make the items look a bit nicer
+    userSelect: "none",
+    padding: grid * 2,
+    margin: `0 0 8px 0`,
+    borderRadius: 10,
+    // change background colour if dragging
+    background: isDragging ? 'red' : "#333333",
+
+    // styles we need to apply on draggables
+    ...draggableStyle
+});
+
+const getListStyle = () => ({
+    padding: 8,
+    width: 450,
+});
 
 
 const CreateContentList = (props) => {
-    const [contentList, setContentList] = useState([]);
-    const [dragId, setDragId] = useState();
-    const [dragging, setDragging] = useState();
+    const [items, setItems] = useState([]);
 
+    const onDragEnd = (result) => {
+        // dropped outside the list
+        if (!result.destination) {
+            return;
+        }
 
-    const initContentList = () => {
-        let initArray = props.contentList;
-        console.log("content", initArray);
-        setContentList(props.contentList);
-        console.log("contentlist", contentList);
+        const newItems = reorder(
+            items,
+            result.source.index,
+            result.destination.index
+        );
+        props.handleContentListUpdate(newItems)
+        setItems(newItems)
+
     }
-
-    const handleContentUpdateURL = (num, event) => {
-        event.persist();
-        let newArr = contentList;
-        let value = event.target.value;
-        let item = contentList[num]
-        newArr[num].url = event.target.value;
-        console.log(newArr)
-
-        setContentList(newArr);
-        console.log(num);
-        console.log(event.target.value)
-    };
-
 
     const simpleAddContent = () => {
         let newItem = {
-            "name": "test name 2",
-            "url": "test name 3",
-            "num": contentList.length
+            "name": "Marketplace",
+            "url": "http://yourlink.com",
+            "id": items.length + 1
         }
-        props.handleContentListUpdate([...contentList, newItem]);
-        setContentList([...contentList, newItem]);
-        console.log(contentList);
+        props.handleContentListUpdate([...items, newItem]);
+    }
+
+    const deleteItem = (index) => {
+        let result = items;
+        result.splice(index, 1);
+        for (let i = 1; i < result.length + 1; i++) {
+            result[i - 1].id = i;
+        }
+        props.handleContentListUpdate([...result]);
     }
 
 
-
-    const handleDrag = (ev) => {
-        setDragId(ev.currentTarget.id);
-
-    };
-
-
-    const handleDrop = (ev) => {
-        const dragItem = contentList.find((item) => item.name === dragId);
-        const dropItem = contentList.find((item) => item.name === ev.currentTarget.id);
-
-        const dragItemOrder = dragItem.num;
-        const dropItemOrder = dropItem.num;
-
-        const newContentList = contentList.map((item) => {
-            if (item.name === dragId) {
-                item.num = dropItemOrder;
-            }
-            if (item.name === ev.currentTarget.id) {
-                item.num = dragItemOrder;
-            }
-            return item;
-        });
-
-        setContentList(newContentList);
-        props.handleContentListUpdate(contentList)
-    };
-
-    const renderContent = () => {
-        if (contentList.length !== 0) {
-            return (
-                <>
-                    {contentList
-                        .sort((a, b) => a.num - b.num)
-                        .map((item) => (
-                            <ContentItem
-                                key={item.num}
-                                itemName={item.name}
-                                itemURL={item.url}
-                                itemNum={item.num}
-                                handleDrag={handleDrag}
-                                handleDrop={handleDrop}
-                            />
-                        ))}
-                </>
-            )
-        }
-        else {
-            return (
-                <div className="c-content-item">
-                    <p className="c-content-item-name">Click the Add Button Below to Create a Content</p>
-                </div>
-            )
-        }
+    const getData = (arr) => {
+        setItems(arr)
     }
+
 
     // UseEffects
     useEffect(() => {
-        setContentList(props.contentList);
+        getData(props.contentList)
     }, [props.contentList]);
 
-    return (
-        <div className="c-content-list">
-            {renderContent()}
+
+
+    // Normally you would want to split things out into separate components.
+    // But in this example everything is just done in one place for simplicity
+    if (items.length !== 0) {
+        return (
+            <>
+                <DragDropContext onDragEnd={onDragEnd}>
+                    <Droppable droppableId="droppable">
+                        {(provided, snapshot) => (
+                            <div
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                                style={getListStyle(snapshot.isDraggingOver)}
+                            >
+                                {items.map((item, index) => (
+                                    <Draggable key={item.id} draggableId={"item=" + item.id} index={index}>
+                                        {(provided, snapshot) => (
+                                            <div
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                                style={getItemStyle(
+                                                    snapshot.isDragging,
+                                                    provided.draggableProps.style
+                                                )}
+                                            >
+                                                <p className="c-content-item-name">
+                                                    Name: {item.name}
+                                                </p>
+                                                <p className="c-content-item-url">
+                                                    URL: {item.url}
+                                                </p>
+                                                <p className="c-content-item-url">
+                                                    num: {item.id}
+                                                </p>
+                                                <DeleteIcon onClick={() => deleteItem(index)} style={{ cursor: 'pointer' }} />
+                                                <DragIcon onClick={() => deleteItem(index)} style={{ cursor: 'grab' }} />
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                </DragDropContext>
+                <button onClick={() => simpleAddContent()} className="c-content-add-item-btn">Add New Item</button>
+            </>
+        );
+    } else {
+        return (
             <button onClick={() => simpleAddContent()} className="c-content-add-item-btn">Add New Item</button>
-        </div>
-    )
-};
+        );
+    }
+}
 
 export default CreateContentList;
-
-
-
-/*
-
-        if (contentList.length !== 0) {
-            return (
-                <>
-                    {contentList.map((item) => (
-                        <div key={item.num} className="c-content-item">
-                            <p className="c-content-item-name">{item.name}</p>
-                            <p className="c-content-item-url">{item.url}</p>
-                            <input className="c-content-item-input"
-                                value={item.url}
-                                onChange={(event) => handleContentUpdateURL(item.num, event)}
-                                placeholder="Name"
-                            />
-                        </div>
-                    ))}
-                </>
-            )
-        }
-
-
-
-
-*/

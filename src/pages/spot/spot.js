@@ -33,10 +33,10 @@ const Spot = () => {
   let item = "https://arweave.net/WHiOxMtFT0zjA-IO2BQbKqE7Lm2bDBy20NUdH_lJ-JE"
   const [loading, setLoading] = useState(true);
   const [profileData, setProfileData] = useState(null);
-  const [bio, setBio] = useState("");
+  const [bio, setBio] = useState("fff");
 
   const formatAddress = (address) => {
-    let str = address.slice(0,4) + "...." + address.slice(-4)
+    let str = address.slice(0, 4) + "...." + address.slice(-4)
     return str;
   }
 
@@ -61,51 +61,70 @@ const Spot = () => {
         }
       ]);
 
-      setProfileData(profile);
+      console.log(profile[0].account);
+      setProfileData(profile[0].account);
       setBio(profile[0].account.bio);
 
       setLoading(false);
-      console.log(profile);
 
-    } catch(error) {
+    } catch (error) {
       console.log("Error checking init")
     }
-    
+
+  }
+
+  const renderContentList = () => {
+    if (profileData !== null && profileData.linkList.length > 0) {
+      return (
+        <>
+          {profileData.linkList.map((item, index) => (
+            <div className="c-content-item" key={item.id}>
+              <p className="c-content-item-name">
+                Name: {item.name}
+              </p>
+              <p className="c-content-item-url">
+                URL: {item.url}
+              </p>
+            </div>
+
+          ))}
+        </>
+      )
+    }
   }
 
   // UseEffects
   useEffect(() => {
-    if (id) 
-    {
+    if (id) {
       loadProfile(id);
     }
   }, [id]);
 
   return (
     <div className="main">
-        <div className="logoContainer">
-          <Logo />
+      <div className="logoContainer">
+        <Logo />
+      </div>
+
+      <div className="spot-header-card">
+        <div className="col1">
+          <img src={item} className="pfp" />
         </div>
 
-        <div className="spot-header-card">
-            <div className="col1">
-              <img src={item} className="pfp" />
-            </div>
-            
-            <div className="col2">
-              <Domain id={id}  />
-              <div className="address-chip">
-                <CopySVG className="copy-svg" />
-                <p className="address-text">{formatAddress(id)}</p>
-              </div>
-              <Twitter id={id}  />
-              {bio}
-              
-            </div>
-            
+        <div className="col2">
+          <Domain id={id} />
+          <div className="address-chip">
+            <CopySVG className="copy-svg" />
+            <p className="address-text">{formatAddress(id)}</p>
+          </div>
+          <Twitter id={id} />
+          <p>
+            {profileData !== null && profileData.bio}
+          </p>
         </div>
-        
-        <NFTShowCase id={id} />
+      </div>
+      {renderContentList()}
+      <NFTShowCase id={id} />
     </div>
   )
 };

@@ -206,7 +206,7 @@
             "type": "string"
           },
           {
-            "name": "num",
+            "name": "id",
             "type": "u8"
           }
         ]

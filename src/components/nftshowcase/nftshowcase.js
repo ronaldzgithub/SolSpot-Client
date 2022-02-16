@@ -16,11 +16,10 @@ const NFTShowCase = (props) => {
         // mainnet-beta or devnet
         let address = props.id
         let connection = new web3.Connection(web3.clusterApiUrl("mainnet-beta"));
-        
 
-        if (address !== null)
-            {
-                const nftMetadata = await Metadata.findDataByOwner(
+
+        if (address !== null) {
+            const nftMetadata = await Metadata.findDataByOwner(
                 connection,
                 address
             );
@@ -30,18 +29,18 @@ const NFTShowCase = (props) => {
             let end = 4;
             if (nftMetadata.length < 4) {
                 end = nftMetadata.length;
-            } 
+            }
             for (let i = 0; i < end; i++) {
                 fetch(nftMetadata[i].data.uri)
-                .then(response => response.json())
-                .then(data => {
-                    // console.log(data.image);
-                    // console.log(data.attributes[0].value);
-                    setImgArr(imgArr => [...imgArr, data.image])
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+                    .then(response => response.json())
+                    .then(data => {
+                        // console.log(data.image);
+                        // console.log(data.attributes[0].value);
+                        setImgArr(imgArr => [...imgArr, data.image])
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
             }
             setLoaded(true);
         }
@@ -68,22 +67,22 @@ const NFTShowCase = (props) => {
         }
     }
 
-  // UseEffects
-  useEffect(async () => {
-      getData()
-  }, props.id);
+    // UseEffects
+    useEffect(async () => {
+        getData()
+    }, [props.id]);
 
-  return (
-    <div className="nft-main">
-        <div className="upperWords">
-            <p className="title">NFT Showcase</p>
-            <p className="titleBtn">SEE ALL</p>
+    return (
+        <div className="nft-main">
+            <div className="upperWords">
+                <p className="title">NFT Showcase</p>
+                <p className="titleBtn">SEE ALL</p>
+            </div>
+
+            <RenderImages />
+
         </div>
-
-        <RenderImages />
-
-    </div>
-  )
+    )
 };
 
 export default NFTShowCase;

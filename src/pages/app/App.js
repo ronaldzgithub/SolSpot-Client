@@ -1,9 +1,9 @@
-import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import Home from "../home/home.js"
 import Spot from "../spot/spot.js"
 import Create from "../create/create.js"
+import './App.css';
 
 const App = () => {
   return (
@@ -16,7 +16,7 @@ const App = () => {
         </Routes>
       </Router>
     </div>
-    
+
   );
 }
 

@@ -50,7 +50,6 @@ const Spot = () => {
   }
 
   const handleContentListUpdate = (arr) => {
-    console.log("arr before add", arr);
     setContentList(arr);
     console.log("content list in parent", contentList)
   }
@@ -77,7 +76,7 @@ const Spot = () => {
         }
       ]);
 
-      if (profile.length !== 0) {
+      if (profile !== null) {
         setUserInit(true);
         setProfileAddress(profile[0].publicKey)
         setLoadedProfile(profile[0]);
@@ -91,7 +90,7 @@ const Spot = () => {
 
     } catch (error) {
       setUserInit(false);
-      console.log("Error checking init")
+      console.log("Error checking init", error)
     }
 
   }
@@ -157,6 +156,12 @@ const Spot = () => {
       const provider = getProvider();
       const program = new Program(idl, programID, provider);
       const user = program.provider.wallet.publicKey;
+
+      let temp = [
+        { "name": "my constructed name 0", "url": "constructed url 0", id: '0' },
+        { "name": "my constructed name 1", "url": "constructed url 1", id: '1' },
+        { "name": "my constructed name 2", "url": "constructed url 2", id: '2' },
+      ]
 
       // update the profile
       await program.rpc.updateProfile(bio, contentList, {
@@ -264,7 +269,6 @@ const Spot = () => {
 
       </div>
       {Content()}
-      {contentList.length}
     </div>
   )
 };
