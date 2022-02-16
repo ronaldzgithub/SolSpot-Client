@@ -5,50 +5,51 @@ const ConnectWallet = (props) => {
     const [walletAddress, setWalletAddress] = useState(null);
 
     const formatAddress = (input) => {
-        let address = input.substring(0, 4) + "..." + input.substring(input.length-4)
+        let address = input.substring(0, 4) + "..." + input.substring(input.length - 4)
         return address
     }
-    
+
 
     // Actions
     const checkIfWalletIsConnected = async () => {
         try {
-        const { solana } = window;
+            const { solana } = window;
 
-        if (solana) {
-            if (solana.isPhantom) {
-            console.log('Phantom wallet found!');
-            const response = await solana.connect({ onlyIfTrusted: true });
-            console.log(
-                'Connected with Public Key:',
-                response.publicKey.toString()
-            );
+            if (solana) {
+                if (solana.isPhantom) {
+                    console.log('Phantom wallet found!');
+                    const response = await solana.connect({ onlyIfTrusted: true });
+                    console.log(
+                        'Connected with Public Key:',
+                        response.publicKey.toString()
+                    );
 
-            /*
-                * Set the user's publicKey in state to be used later!
-                */
-            setWalletAddress(response.publicKey.toString());
-            props.handleWalletUpdate(response.publicKey.toString())
+                    /*
+                        * Set the user's publicKey in state to be used later!
+                        */
+                    setWalletAddress(response.publicKey.toString());
+                    let tempAddress = response.publicKey.toString();
+                    props.handleWalletUpdate(tempAddress)
+                }
+            } else {
+                alert('Solana object not found! Get a Phantom Wallet 👻');
             }
-        } else {
-            alert('Solana object not found! Get a Phantom Wallet 👻');
-        }
         } catch (error) {
-        console.error(error);
+            console.error(error);
         }
     };
 
     const connectWallet = async () => {
         const { solana } = window;
-      
-        if (solana) {
-          const response = await solana.connect();
-          console.log('Connected with Public Key:', response.publicKey.toString());
-          setWalletAddress(response.publicKey.toString());
 
+        if (solana) {
+            const response = await solana.connect();
+            console.log('Connected with Public Key:', response.publicKey.toString());
+            setWalletAddress(response.publicKey.toString());
+            props.handleWalletUpdate(response.publicKey.toString())
         }
-      };
-    
+    };
+
 
     // UseEffects
     useEffect(() => {
@@ -58,33 +59,37 @@ const ConnectWallet = (props) => {
         window.addEventListener('load', onLoad);
         return () => window.removeEventListener('load', onLoad);
     }, []);
-    
 
-    const RenderDomains = () => {
+
+    const renderConnect = () => {
         if (!walletAddress) {
             return (
                 <button
                     className="wallet-login-button"
                     onClick={connectWallet}
-                    >
-                        Connect Wallet
+                >
+                    Connect Wallet
                 </button>
             )
         }
-        else {
+    }
+
+    const renderDisconnect = () => {
+        if (walletAddress) {
             return (
-                <button
-                    className="wallet-login-button"
-                    >
+                <button className="wallet-login-button">
                     {formatAddress(walletAddress)}
                 </button>
             )
         }
-    }   
+    }
+
+
 
     return (
         <>
-            <RenderDomains />
+            {props.v == "connect" && renderConnect()}
+            {props.v == "disconnect" && renderDisconnect()}
         </>
     )
 };

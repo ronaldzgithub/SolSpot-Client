@@ -1,0 +1,66 @@
+.nft-main {
+	width: auto;
+	min-width: 40%;
+	margin-top: 40px;
+}
+
+.upperWords {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.title {
+	font-size: 24px;
+}
+
+.content {
+	font-size: 24px;
+	cursor: pointer;
+}
+
+.c-content-list {
+	height: auto;
+	width: auto;
+	margin: 10px 0px;
+	background-color: green;
+}
+
+.c-content-item {
+	height: auto;
+	width: 600px;
+	min-width: 500px;
+	margin: 30px 0px;
+	padding: 10px;
+	border-radius: 18px;
+	background-color: orange;
+	cursor: grab;
+  
+	
+}
+
+
+.c-content-item-name {
+	font-size: 24px;
+	color: white;
+	cursor: pointer;
+}
+
+.c-content-item-url {
+	font-size: 18px;
+	color: white;
+}
+
+.c-content-add-item-btn {
+	all: unset;
+	height: 40px;
+	width: 600px;
+	min-width: 500px;
+	margin: 30px 0px;
+	padding: 10px;
+	border-radius: 18px;
+	background-color: darkblue;
+	color: white;
+	text-align: center;
+	font-size: 22px;
+}

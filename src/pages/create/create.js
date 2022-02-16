@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Logo from "components/logo/logo.js"
-import ConnectWallet from "components/connectWallet/connectWallet.js"
+import Logo from "components/logo/logo.js";
+import ConnectWallet from "components/connectWallet/connectWallet.js";
+import CreateContentList from "components/createContentList/createContentList";
 import idl from 'idl.json';
 
 import "./create.css"
@@ -24,15 +25,34 @@ const opts = {
 
 
 const Spot = () => {
+  // wallet address of the user
+  const [walletAddress, setWalletAddress] = useState("");
+
+  // profile address of the loaded profile
+  const [profileAddress, setProfileAddress] = useState("");
+
+  // loaded profile data from the blockchain
+  const [loadedProfile, setLoadedProfile] = useState([]);
+
   const [bio, setBio] = useState("");
-  const [walletAddress, setWalletAddress] = useState(null);
-  const [profileAddress, setProfileAddress] = useState(null);
-  const [profileData, setProfileData] = useState(null);
-  const [userInit, setUserInit] = useState(null);
+  const [contentList, setContentList] = useState([]);
+
+  // is the user initialized or not
+  // used on first load to determine what to show user
+  const [userInit, setUserInit] = useState(false);
+
+  // is or is not loading
   const [loading, setLoading] = useState(true);
 
   const handleWalletUpdate = (address) => {
-    setWalletAddress(address);
+    let newAddress = address;
+    setWalletAddress(newAddress);
+  }
+
+  const handleContentListUpdate = (arr) => {
+    console.log("arr before add", arr);
+    setContentList(arr);
+    console.log("content list in parent", contentList)
   }
 
 
@@ -57,129 +77,144 @@ const Spot = () => {
         }
       ]);
 
-      if (profile.length !== 0)
-      {
+      if (profile.length !== 0) {
         setUserInit(true);
         setProfileAddress(profile[0].publicKey)
-        setProfileData(profile);
+        setLoadedProfile(profile[0]);
         setBio(profile[0].account.bio);
+        setContentList(profile[0].account.linkList);
       } else {
         setUserInit(false)
       }
       setLoading(false);
-      console.log(profile);
+      console.log(profile[0]);
 
-    } catch(error) {
+    } catch (error) {
       setUserInit(false);
       console.log("Error checking init")
     }
-    
+
   }
 
-  {/* Initialize the profile if there is not one associated to their wallet ID */} 
+  {/* Initialize the profile if there is not one associated to their wallet ID */ }
   const initializeProfile = async () => {
     console.log(userInit)
     if (!userInit) {
-        try {
-          const provider = getProvider();
-          const program = new Program(idl, programID, provider);
+      try {
+        const provider = getProvider();
+        const program = new Program(idl, programID, provider);
 
-          const user = program.provider.wallet.publicKey;
-          const profile_address = web3.Keypair.generate();
-      
-          await program.rpc.initialize({
-            accounts: {
-              profile: profile_address.publicKey,
-              user,
-              systemProgram: SystemProgram.programId,
-            },
-            signers: [profile_address],
-          });
+        const user = program.provider.wallet.publicKey;
+        const profile_address = web3.Keypair.generate();
 
-          console.log("Created a new Profile w/ address:", profile_address.publicKey.toString())
-          setProfileAddress(profile_address.publicKey);
-      
-        } catch(error) {
-          console.log("Error creating Profile account:", error)
-        }
+        await program.rpc.initialize({
+          accounts: {
+            profile: profile_address.publicKey,
+            user,
+            systemProgram: SystemProgram.programId,
+          },
+          signers: [profile_address],
+        });
+
+        console.log("Created a new Profile w/ address:", profile_address.publicKey.toString())
+        setProfileAddress(profile_address.publicKey);
+
+      } catch (error) {
+        console.log("Error creating Profile account:", error)
+      }
     } else {
       console.log("Trying to initialize an account that already has a profile associated with it.")
     }
   }
 
-    {/* Initialize the profile if there is not one associated to their wallet ID */} 
-    const addBio = async (input) => {
-      if (true) {
-          try {
-            const provider = getProvider();
-            const program = new Program(idl, programID, provider);
-  
-            const user = program.provider.wallet.publicKey;
-            console.log("adding bio")
-            // update the profile
-            await program.rpc.updateBio(input, {
-              accounts: {
-                profile: profileAddress,
-                user,
-              },
-            });
-  
-            console.log("Created a new Profile w/ address:", profileAddress)
-        
-          } catch(error) {
-            console.log("Error creating Profile account:", error)
-          }
-      } else {
-        console.log("Trying to initialize an account that already has a profile associated with it.")
-      }
+  /*
+  const updateProfileBio = async (input) => {
+    try {
+      const provider = getProvider();
+      const program = new Program(idl, programID, provider);
+
+      const user = program.provider.wallet.publicKey;
+      console.log("adding bio")
+      // update the profile
+      await program.rpc.updateBio(input, {
+        accounts: {
+          profile: profileAddress,
+          user,
+        },
+      });
+
+      console.log("Created a new Profile w/ address:", profileAddress)
+
+    } catch (error) {
+      console.log("Error creating Profile account:", error)
     }
 
+  }
+  */
 
-  const changeSearch = (event) => {
-      setBio(event.target.value);
-  };
+  const updateProfileOnChain = async () => {
+    try {
+      const provider = getProvider();
+      const program = new Program(idl, programID, provider);
+      const user = program.provider.wallet.publicKey;
+
+      // update the profile
+      await program.rpc.updateProfile(bio, contentList, {
+        accounts: {
+          profile: profileAddress,
+          user,
+        },
+      });
+      console.log("Updated the profile at the following address: ", profileAddress)
+    } catch (error) {
+      console.log("Error updating the Profile account:", error)
+    }
+  }
 
 
-  const handleSubmit = () => {
-      addBio(bio);
+  const changeBio = (event) => {
+    setBio(event.target.value);
   };
 
 
   const profileContent = () => {
     return (
-          <div>
-          
-            <div className="c-pfp" />
-            <div className="searchContainer">
-                <div className="inputContainer">
-                    <input
-                        value={bio}
-                        onChange={changeSearch}
-                        className="input"
-                        placeholder="Your Bio"
-                    />
-                </div>
-                <button className="btn" onClick={() => handleSubmit()}>SAVE</button>
-            </div>
+      <div className="c-profile-content-container">
+
+        <div className="c-pfp" />
+        <div className="inputContainer">
+          <input
+            value={bio}
+            onChange={changeBio}
+            className="input"
+            placeholder="Your Bio"
+          />
         </div>
+        <CreateContentList contentList={contentList} handleContentListUpdate={handleContentListUpdate} />
+        <button className="c-form-submit-btn" onClick={() => updateProfileOnChain()}>SAVE</button>
+
+      </div>
 
     )
-        
+
   };
 
   const initializeContent = () => {
     return (
-    <div>
-      <button className="btn" onClick={() => initializeProfile()}>Initialize</button>
-    </div>        
+      <div>
+        <button className="btn" onClick={() => initializeProfile()}>Initialize</button>
+      </div>
     )
 
   }
 
   const loginNeededContent = () => {
     return (
-      <div>
-        <p>you need to login bro</p>
+      <div className="c-login-card">
+        <h1>Login to Create Your SolSpot</h1>
+        <p>You can use any wallet!</p>
+        <ConnectWallet handleWalletUpdate={handleWalletUpdate} v={"connect"} />
+
       </div>
     )
   };
@@ -193,42 +228,43 @@ const Spot = () => {
   };
 
 
+  /* Oof. This hurt head. */
   const Content = () => {
-    if (!loading)
-    {
-      if (!walletAddress) {
-          return loginNeededContent();
-        }
-        else {
-          if (userInit) {
-            return profileContent();
-          } else if (!userInit) {
-            return initializeContent();
-          } 
-        }
+    if (!walletAddress) {
+      return loginNeededContent();
     }
     else {
-      return loadingContent();
+      if (!loading) {
+        if (userInit) {
+          return profileContent();
+        }
+        else if (!userInit) {
+          return initializeContent();
+        }
+      } else {
+        return loadingContent();
+      }
     }
-    
   }
+
 
   // UseEffects
   useEffect(() => {
-    if (walletAddress) 
-    {
+    if (walletAddress) {
       checkIfInit();
     }
   }, [walletAddress]);
 
+
   return (
     <div className="c-main">
-        <div className="c-logoContainer">
-          <Logo />
-          <ConnectWallet handleWalletUpdate={handleWalletUpdate} />
-        </div>
-        {Content()}
-        {walletAddress}
+      <div className="c-logoContainer">
+        <Logo />
+        <ConnectWallet handleWalletUpdate={handleWalletUpdate} v={"disconnect"} />
+
+      </div>
+      {Content()}
+      {contentList.length}
     </div>
   )
 };

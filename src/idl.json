@@ -24,7 +24,7 @@
       "args": []
     },
     {
-      "name": "constructProfile",
+      "name": "updateProfile",
       "accounts": [
         {
           "name": "profile",
@@ -39,9 +39,15 @@
       ],
       "args": [
         {
-          "name": "obj",
+          "name": "bio",
+          "type": "string"
+        },
+        {
+          "name": "content",
           "type": {
-            "defined": "Profile"
+            "vec": {
+              "defined": "ContentStruct"
+            }
           }
         }
       ]
@@ -177,7 +183,7 @@
             "name": "linkList",
             "type": {
               "vec": {
-                "defined": "LinkStruct"
+                "defined": "ContentStruct"
               }
             }
           }
@@ -187,7 +193,7 @@
   ],
   "types": [
     {
-      "name": "LinkStruct",
+      "name": "ContentStruct",
       "type": {
         "kind": "struct",
         "fields": [
@@ -198,6 +204,10 @@
           {
             "name": "url",
             "type": "string"
+          },
+          {
+            "name": "num",
+            "type": "u8"
           }
         ]
       }

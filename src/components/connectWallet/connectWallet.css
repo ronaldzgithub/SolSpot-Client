@@ -10,3 +10,19 @@
 	cursor: pointer;
 	margin: 20px;
 }
+
+.wallet-login-button-absolute {
+	all: unset;
+	position: absolute;
+	top: 10;
+	right: 10;
+	background-color: #333;
+	border-radius: 15px;
+	height: 40px;
+	width: auto;
+	padding: 10px 20px;
+	color: white;
+	text-decoration: none;
+	cursor: pointer;
+	margin: 20px;
+}
