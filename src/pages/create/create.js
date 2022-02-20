@@ -10,7 +10,7 @@ import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
 import { Program, Provider, web3 } from '@project-serum/anchor';
 
 // SystemProgram is a reference to the Solana runtime!
-const { SystemProgram, Keypair } = web3;
+const { SystemProgram } = web3;
 
 // Get our program's id from the IDL file.
 const programID = new PublicKey(idl.metadata.address);
@@ -20,257 +20,296 @@ const network = clusterApiUrl('devnet');
 
 // Controls how we want to acknowledge when a transaction is "done".
 const opts = {
-  preflightCommitment: "processed"
+   preflightCommitment: "processed"
 }
 
 
 const Spot = () => {
-  // wallet address of the user
-  const [walletAddress, setWalletAddress] = useState("");
+   // wallet address of the user
+   const [walletAddress, setWalletAddress] = useState("");
 
-  // profile address of the loaded profile
-  const [profileAddress, setProfileAddress] = useState("");
+   // profile address of the loaded profile
+   const [profileAddress, setProfileAddress] = useState("");
 
-  // loaded profile data from the blockchain
-  const [loadedProfile, setLoadedProfile] = useState([]);
+   // loaded profile data from the blockchain
+   const [currentProfile, setCurrentProfile] = useState(null);
+   const [loadedProfile, setLoadedProfile] = useState(null);
 
-  const [bio, setBio] = useState("");
-  const [contentList, setContentList] = useState([]);
+   const [bio, setBio] = useState("");
+   const [contentList, setContentList] = useState([]);
 
-  // is the user initialized or not
-  // used on first load to determine what to show user
-  const [userInit, setUserInit] = useState(false);
+   // is the user initialized or not
+   // used on first load to determine what to show user
+   const [userInit, setUserInit] = useState(false);
 
-  // is or is not loading
-  const [loading, setLoading] = useState(true);
+   // is or is not loading
+   const [profileHasChanged, setProfileHasChanged] = useState(true);
+   const [loading, setLoading] = useState(true);
 
-  const handleWalletUpdate = (address) => {
-    let newAddress = address;
-    setWalletAddress(newAddress);
-  }
+   const handleWalletUpdate = (address) => {
+      let newAddress = address;
+      setWalletAddress(newAddress);
+   }
 
-  const handleContentListUpdate = (arr) => {
-    setContentList(arr);
-    console.log("content list in parent", contentList)
-  }
+   const handleContentListUpdate = (arr) => {
+      let obj = currentProfile;
+      obj.linkList = arr;
+      setCurrentProfile({ ...obj })
+      setContentList(arr);
+      console.log("content list in parent", contentList)
+   }
+
+   const resetProfileData = () => {
+      setCurrentProfile(loadedProfile);
+   }
 
 
-  const getProvider = () => {
-    const connection = new Connection(network, opts.preflightCommitment);
-    const provider = new Provider(
-      connection, window.solana, opts.preflightCommitment,
-    );
-    return provider;
-  }
+   const getProvider = () => {
+      const connection = new Connection(network, opts.preflightCommitment);
+      const provider = new Provider(
+         connection, window.solana, opts.preflightCommitment,
+      );
+      return provider;
+   }
 
-  const checkIfInit = async () => {
-    try {
-      const provider = getProvider();
-      const program = new Program(idl, programID, provider);
-      const profile = await program.account.profile.all([
-        {
-          memcmp: {
-            offset: 8, // Discriminator.
-            bytes: walletAddress,
-          }
-        }
-      ]);
 
-      if (profile !== null) {
-        setUserInit(true);
-        setProfileAddress(profile[0].publicKey)
-        setLoadedProfile(profile[0]);
-        setBio(profile[0].account.bio);
-        setContentList(profile[0].account.linkList);
-      } else {
-        setUserInit(false)
-      }
-      setLoading(false);
-      console.log(profile[0]);
-
-    } catch (error) {
-      setUserInit(false);
-      console.log("Error checking init", error)
-    }
-
-  }
-
-  {/* Initialize the profile if there is not one associated to their wallet ID */ }
-  const initializeProfile = async () => {
-    console.log(userInit)
-    if (!userInit) {
+   const loadProfile = async (user_wallet_address) => {
       try {
-        const provider = getProvider();
-        const program = new Program(idl, programID, provider);
+         const provider = getProvider();
+         const program = new Program(idl, programID, provider);
+         let profile_data = await program.account.profile.all([
+            {
+               memcmp: {
+                  offset: 8, // Discriminator.
+                  bytes: user_wallet_address,
+               }
+            }
+         ]);
 
-        const user = program.provider.wallet.publicKey;
-        const profile_address = web3.Keypair.generate();
+         if (profile_data.length > 0 && profile_data !== []) {
 
-        await program.rpc.initialize({
-          accounts: {
-            profile: profile_address.publicKey,
-            user,
-            systemProgram: SystemProgram.programId,
-          },
-          signers: [profile_address],
-        });
+            setCurrentProfile(profile_data[0].account);
+            let profile_item = profile_data[0].account;
+            let obj = {
+               "bio": profile_item.bio,
+               "color": profile_item.bio,
+               "lightTheme": profile_item.lightTheme,
+               "individual": profile_item.individual,
+               "linkList": []
+            }
+            for (let i = 0; i < profile_item.linkList.length; i++) {
+               obj.linkList.push({ "name": profile_item[i].name, "url": profile_item[i].url, "id": profile_item[i].id })
+            }
 
-        console.log("Created a new Profile w/ address:", profile_address.publicKey.toString())
-        setProfileAddress(profile_address.publicKey);
+            setLoadedProfile(obj);
 
+
+            setProfileAddress(profile_data[0].publicKey);
+            // setContentList(profile_data[0].account.linkList);
+         }
+         return profile_data;
       } catch (error) {
-        console.log("Error creating Profile account:", error)
+         console.log("LOAD PROFILE ERROR: ", error);
       }
-    } else {
-      console.log("Trying to initialize an account that already has a profile associated with it.")
-    }
-  }
+   }
 
-  /*
-  const updateProfileBio = async (input) => {
-    try {
-      const provider = getProvider();
-      const program = new Program(idl, programID, provider);
+   const checkIfChanged = () => {
+      let profileChanged = true;
+      if (loadedProfile.bio === currentProfile.bio &&
+         loadedProfile.color === currentProfile.color &&
+         loadedProfile.individual === currentProfile.individual &&
+         loadedProfile.lightTheme === currentProfile.lightTheme
+      ) {
+         for (let i = 0; i < loadedProfile.linkList.length; i++) {
+            if (loadedProfile.linkList[i].name === contentList[i].name
+               && loadedProfile.linkList[i].url === contentList[i].url
+               && loadedProfile.linkList[i].id === contentList[i].id
+            ) {
+               console.log('he')
+            }
+         }
+      }
+      setProfileHasChanged(profileChanged);
+   }
 
-      const user = program.provider.wallet.publicKey;
-      console.log("adding bio")
-      // update the profile
-      await program.rpc.updateBio(input, {
-        accounts: {
-          profile: profileAddress,
-          user,
-        },
-      });
-
-      console.log("Created a new Profile w/ address:", profileAddress)
-
-    } catch (error) {
-      console.log("Error creating Profile account:", error)
-    }
-
-  }
-  */
-
-  const updateProfileOnChain = async () => {
-    try {
-      const provider = getProvider();
-      const program = new Program(idl, programID, provider);
-      const user = program.provider.wallet.publicKey;
-
-      let temp = [
-        { "name": "my constructed name 0", "url": "constructed url 0", id: '0' },
-        { "name": "my constructed name 1", "url": "constructed url 1", id: '1' },
-        { "name": "my constructed name 2", "url": "constructed url 2", id: '2' },
-      ]
-
-      // update the profile
-      await program.rpc.updateProfile(bio, contentList, {
-        accounts: {
-          profile: profileAddress,
-          user,
-        },
-      });
-      console.log("Updated the profile at the following address: ", profileAddress)
-    } catch (error) {
-      console.log("Error updating the Profile account:", error)
-    }
-  }
+   const checkIfInit = async (init_address) => {
+      try {
+         let profile = await loadProfile(init_address)
+         if (profile.length > 0 && profile !== []) {
+            setUserInit(true);
+         } else {
+            setUserInit(false)
+         }
+         setLoading(false);
+      } catch (error) {
+         setUserInit(true);
+         setLoading(false);
+         console.log("CHECK IF INIT ERROR: ", error)
+      }
+   }
 
 
-  const changeBio = (event) => {
-    setBio(event.target.value);
-  };
+   /* Initialize the profile if there is not one associated to their wallet ID */
+   const initializeProfile = async () => {
+      if (!userInit) {
+         try {
+            const provider = getProvider();
+            const program = new Program(idl, programID, provider);
 
+            const user = program.provider.wallet.publicKey;
+            const profile_address = web3.Keypair.generate();
 
-  const profileContent = () => {
-    return (
-      <div className="c-profile-content-container">
+            await program.rpc.initialize({
+               accounts: {
+                  profile: profile_address.publicKey,
+                  user,
+                  systemProgram: SystemProgram.programId,
+               },
+               signers: [profile_address],
+            });
 
-        <div className="c-pfp" />
-        <div className="inputContainer">
-          <input
-            value={bio}
-            onChange={changeBio}
-            className="input"
-            placeholder="Your Bio"
-          />
-        </div>
-        <CreateContentList contentList={contentList} handleContentListUpdate={handleContentListUpdate} />
-        <button className="c-form-submit-btn" onClick={() => updateProfileOnChain()}>SAVE</button>
+            console.log("Created a new Profile w/ address:", profile_address.publicKey.toString())
+            setProfileAddress(profile_address.publicKey);
+            checkIfInit(walletAddress);
 
-      </div>
-
-    )
-
-  };
-
-  const initializeContent = () => {
-    return (
-      <div>
-        <button className="btn" onClick={() => initializeProfile()}>Initialize</button>
-      </div>
-    )
-
-  }
-
-  const loginNeededContent = () => {
-    return (
-      <div className="c-login-card">
-        <h1>Login to Create Your SolSpot</h1>
-        <p>You can use any wallet!</p>
-        <ConnectWallet handleWalletUpdate={handleWalletUpdate} v={"connect"} />
-
-      </div>
-    )
-  };
-
-  const loadingContent = () => {
-    return (
-      <div>
-        <p>loading bro</p>
-      </div>
-    )
-  };
-
-
-  /* Oof. This hurt head. */
-  const Content = () => {
-    if (!walletAddress) {
-      return loginNeededContent();
-    }
-    else {
-      if (!loading) {
-        if (userInit) {
-          return profileContent();
-        }
-        else if (!userInit) {
-          return initializeContent();
-        }
+         } catch (error) {
+            console.log("Error creating Profile account:", error)
+         }
       } else {
-        return loadingContent();
+         console.log("Trying to initialize an account that already has a profile associated with it.")
       }
-    }
-  }
+   }
 
 
-  // UseEffects
-  useEffect(() => {
-    if (walletAddress) {
-      checkIfInit();
-    }
-  }, [walletAddress]);
+   const updateProfileOnChain = async () => {
+      try {
+         const provider = getProvider();
+         const program = new Program(idl, programID, provider);
+         const user = program.provider.wallet.publicKey;
+
+         // update the profile
+         await program.rpc.updateProfile(currentProfile.bio, currentProfile.color,
+            currentProfile.lightTheme, currentProfile.individual, contentList, {
+            accounts: {
+               profile: profileAddress,
+               user,
+            },
+         });
+         console.log("Updated the profile at the following address: ", profileAddress)
+      } catch (error) {
+         console.log("Error updating the Profile account:", error)
+      }
+   }
 
 
-  return (
-    <div className="c-main">
-      <div className="c-logoContainer">
-        <Logo />
-        <ConnectWallet handleWalletUpdate={handleWalletUpdate} v={"disconnect"} />
+   const changeBio = (event) => {
+      let tempProfileFromCurrentProfile = currentProfile;
+      tempProfileFromCurrentProfile.bio = event.target.value;
+      setCurrentProfile(tempProfileFromCurrentProfile => ({ ...tempProfileFromCurrentProfile, bio: event.target.value }));
+   };
 
+
+   const changeColor = (event) => {
+      let obj = currentProfile;
+      obj.color = event.target.value;
+      setCurrentProfile(prevCurrentProfile => ({ ...prevCurrentProfile, color: event.target.value }));
+   };
+
+
+   const profileContent = () => {
+      return (
+         <div className="c-profile-content-container">
+            <div className="c-pfp" />
+            <div className="c-inputContainer">
+               <input
+                  value={currentProfile.bio}
+                  onChange={changeBio}
+                  className="c-bio-input"
+                  placeholder="Your Bio"
+               />
+            </div>
+            <div className="c-inputContainer">
+               <input
+                  value={currentProfile.color}
+                  onChange={changeColor}
+                  className="c-color-input"
+                  placeholder="Your color"
+               />
+            </div>
+            <CreateContentList contentList={contentList} handleContentListUpdate={handleContentListUpdate} />
+            <div className="c-save-btns">
+               <button className="c-form-submit-btn" onClick={() => resetProfileData()}>RESET</button>
+               <button className="c-form-submit-btn" onClick={() => updateProfileOnChain()}>SAVE</button>
+            </div>
+         </div>
+      )
+   };
+
+   const initializeContent = () => {
+      return (
+         <div>
+            <button className="btn" onClick={() => initializeProfile()}>Initialize</button>
+         </div>
+      )
+   }
+
+   const loginNeededContent = () => {
+      return (
+         <div className="c-login-card">
+            <h1>Login to Create Your SolSpot</h1>
+            <p>You can use any wallet!</p>
+            <ConnectWallet handleWalletUpdate={handleWalletUpdate} v={"connect"} />
+         </div>
+      )
+   };
+
+   const loadingContent = () => {
+      return (
+         <div>
+            <p>loading bro</p>
+         </div>
+      )
+   };
+
+
+   /* Oof. This hurt head. */
+   const Content = () => {
+      if (!walletAddress) {
+         return loginNeededContent();
+      }
+      else {
+         if (!loading) {
+            if (userInit) {
+               return profileContent();
+            }
+            else if (!userInit) {
+               return initializeContent();
+            }
+         } else {
+            return loadingContent();
+         }
+      }
+   }
+
+
+   // UseEffects
+   useEffect(() => {
+      if (walletAddress) {
+         checkIfInit(walletAddress);
+      }
+   }, [walletAddress]);
+
+
+   return (
+      <div className="c-main">
+         <div className="c-logoContainer">
+            <Logo />
+            <ConnectWallet handleWalletUpdate={handleWalletUpdate} v={"disconnect"} />
+
+         </div>
+         {Content()}
       </div>
-      {Content()}
-    </div>
-  )
+   )
 };
 
 export default Spot;

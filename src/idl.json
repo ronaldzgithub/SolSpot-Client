@@ -1,226 +1,159 @@
 {
-  "version": "0.1.0",
-  "name": "solspot",
-  "instructions": [
-    {
-      "name": "initialize",
-      "accounts": [
-        {
-          "name": "profile",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "user",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "updateProfile",
-      "accounts": [
-        {
-          "name": "profile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "user",
-          "isMut": false,
-          "isSigner": true
-        }
-      ],
-      "args": [
-        {
-          "name": "bio",
-          "type": "string"
-        },
-        {
-          "name": "content",
-          "type": {
-            "vec": {
-              "defined": "ContentStruct"
+   "version": "0.1.0",
+   "name": "solspot",
+   "instructions": [
+      {
+         "name": "initialize",
+         "accounts": [
+            {
+               "name": "profile",
+               "isMut": true,
+               "isSigner": true
+            },
+            {
+               "name": "user",
+               "isMut": true,
+               "isSigner": true
+            },
+            {
+               "name": "systemProgram",
+               "isMut": false,
+               "isSigner": false
             }
-          }
-        }
-      ]
-    },
-    {
-      "name": "updateBio",
-      "accounts": [
-        {
-          "name": "profile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "user",
-          "isMut": false,
-          "isSigner": true
-        }
-      ],
-      "args": [
-        {
-          "name": "bio",
-          "type": "string"
-        }
-      ]
-    },
-    {
-      "name": "addLink",
-      "accounts": [
-        {
-          "name": "profile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "user",
-          "isMut": false,
-          "isSigner": true
-        }
-      ],
-      "args": [
-        {
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "name": "url",
-          "type": "string"
-        }
-      ]
-    },
-    {
-      "name": "updateLink",
-      "accounts": [
-        {
-          "name": "profile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "user",
-          "isMut": false,
-          "isSigner": true
-        }
-      ],
-      "args": [
-        {
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "name": "url",
-          "type": "string"
-        },
-        {
-          "name": "index",
-          "type": "u8"
-        }
-      ]
-    },
-    {
-      "name": "deleteLink",
-      "accounts": [
-        {
-          "name": "profile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "user",
-          "isMut": false,
-          "isSigner": true
-        }
-      ],
-      "args": [
-        {
-          "name": "index",
-          "type": "u8"
-        }
-      ]
-    },
-    {
-      "name": "deleteProfile",
-      "accounts": [
-        {
-          "name": "profile",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "user",
-          "isMut": false,
-          "isSigner": true
-        }
-      ],
-      "args": []
-    }
-  ],
-  "accounts": [
-    {
-      "name": "Profile",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "user",
-            "type": "publicKey"
-          },
-          {
-            "name": "bio",
-            "type": "string"
-          },
-          {
-            "name": "linkList",
-            "type": {
-              "vec": {
-                "defined": "ContentStruct"
-              }
+         ],
+         "args": []
+      },
+      {
+         "name": "updateProfile",
+         "accounts": [
+            {
+               "name": "profile",
+               "isMut": true,
+               "isSigner": false
+            },
+            {
+               "name": "user",
+               "isMut": false,
+               "isSigner": true
             }
-          }
-        ]
+         ],
+         "args": [
+            {
+               "name": "bio",
+               "type": "string"
+            },
+            {
+               "name": "color",
+               "type": "string"
+            },
+            {
+               "name": "light",
+               "type": "bool"
+            },
+            {
+               "name": "individProf",
+               "type": "bool"
+            },
+            {
+               "name": "content",
+               "type": {
+                  "vec": {
+                     "defined": "ContentStruct"
+                  }
+               }
+            }
+         ]
+      },
+      {
+         "name": "deleteProfile",
+         "accounts": [
+            {
+               "name": "profile",
+               "isMut": true,
+               "isSigner": false
+            },
+            {
+               "name": "user",
+               "isMut": false,
+               "isSigner": true
+            }
+         ],
+         "args": []
       }
-    }
-  ],
-  "types": [
-    {
-      "name": "ContentStruct",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "name": "url",
-            "type": "string"
-          },
-          {
-            "name": "id",
-            "type": "u8"
-          }
-        ]
+   ],
+   "accounts": [
+      {
+         "name": "Profile",
+         "type": {
+            "kind": "struct",
+            "fields": [
+               {
+                  "name": "user",
+                  "type": "publicKey"
+               },
+               {
+                  "name": "bio",
+                  "type": "string"
+               },
+               {
+                  "name": "color",
+                  "type": "string"
+               },
+               {
+                  "name": "lightTheme",
+                  "type": "bool"
+               },
+               {
+                  "name": "individual",
+                  "type": "bool"
+               },
+               {
+                  "name": "linkList",
+                  "type": {
+                     "vec": {
+                        "defined": "ContentStruct"
+                     }
+                  }
+               }
+            ]
+         }
       }
-    }
-  ],
-  "errors": [
-    {
-      "code": 6000,
-      "name": "BioTooLong",
-      "msg": "The provided bio should be 140 characters long maximum."
-    }
-  ],
-  "metadata": {
-    "address": "6qgQxwtSDhC8sEJ1AERrchDcyWVKsyj6cN5uk5papLsd"
-  }
+   ],
+   "types": [
+      {
+         "name": "ContentStruct",
+         "type": {
+            "kind": "struct",
+            "fields": [
+               {
+                  "name": "name",
+                  "type": "string"
+               },
+               {
+                  "name": "url",
+                  "type": "string"
+               },
+               {
+                  "name": "id",
+                  "type": "u8"
+               }
+            ]
+         }
+      }
+   ],
+   "errors": [
+      {
+         "code": 6000,
+         "name": "BioTooLong",
+         "msg": "The provided bio should be 150 characters long maximum."
+      },
+      {
+         "code": 6001,
+         "name": "ColorTooLong",
+         "msg": "The provided color should be 6 characters long."
+      }
+   ],
+   "metadata": {
+      "address": "9LzdaMByVqhVJqbP74KF1mwxfSiQSVQWMZnwRgbPMW88"
+   }
 }

@@ -61,3 +61,45 @@
 	font-size: 22px;
 	cursor: pointer;
 }
+
+.c-item-input {
+	all: unset;
+	background-color: white;
+	cursor: text;
+	padding: 6px;
+	padding-left: 15px;
+	font-size: 22px;
+	font-weight: 200px;
+	margin: 5px 0px;
+}
+
+.c-inputContainer {
+	display: flex;
+	flex-direction: row;
+	border-radius: 20px;
+	height: 50px;
+	width: 500px;
+	margin: 0px 20px;
+	background-color: white;
+	border: 1px solid black;
+   margin: 5px 0px;
+}
+
+
+.c-bio-input {
+	all: unset;
+	padding: 6px;
+	padding-left: 15px;
+	font-size: 22px;
+	font-weight: 200px;
+	width: 100%;
+}
+
+.c-color-input {
+	all: unset;
+	padding: 6px;
+	padding-left: 15px;
+	font-size: 22px;
+	font-weight: 200px;
+	width: 100%;
+}
