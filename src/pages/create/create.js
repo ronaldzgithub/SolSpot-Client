@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import Logo from "components/logo/logo.js";
+import SolSpotLogo from "assets/solspot_logo";
 import ConnectWallet from "components/connectWallet/connectWallet.js";
 import CreateContentList from "components/createContentList/createContentList";
 import idl from 'idl.json';
+import WelcomePopup from 'components/welcomePopup/welcomePopup';
+import { useNavigate } from 'react-router-dom';
+
+
+
+
 
 import "./create.css"
 
 import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
 import { Program, Provider, web3 } from '@project-serum/anchor';
+
+
 
 // SystemProgram is a reference to the Solana runtime!
 const { SystemProgram } = web3;
@@ -25,6 +33,7 @@ const opts = {
 
 
 const Spot = () => {
+   let navigate = useNavigate();
    // wallet address of the user
    const [walletAddress, setWalletAddress] = useState("");
 
@@ -34,17 +43,14 @@ const Spot = () => {
    // loaded profile data from the blockchain
    const [currentProfile, setCurrentProfile] = useState(null);
    const [loadedProfile, setLoadedProfile] = useState(null);
-
-   const [bio, setBio] = useState("");
-   const [contentList, setContentList] = useState([]);
-
-   // is the user initialized or not
-   // used on first load to determine what to show user
-   const [userInit, setUserInit] = useState(false);
+   const [hasInitialized, setHasInitialized] = useState(false);
 
    // is or is not loading
    const [profileHasChanged, setProfileHasChanged] = useState(true);
    const [loading, setLoading] = useState(true);
+
+
+
 
    const handleWalletUpdate = (address) => {
       let newAddress = address;
@@ -55,8 +61,6 @@ const Spot = () => {
       let obj = currentProfile;
       obj.linkList = arr;
       setCurrentProfile({ ...obj })
-      setContentList(arr);
-      console.log("content list in parent", contentList)
    }
 
    const resetProfileData = () => {
@@ -70,6 +74,10 @@ const Spot = () => {
          connection, window.solana, opts.preflightCommitment,
       );
       return provider;
+   }
+
+   const clickLogo = () => {
+      navigate(`/`);
    }
 
 
@@ -87,7 +95,7 @@ const Spot = () => {
          ]);
 
          if (profile_data.length > 0 && profile_data !== []) {
-
+            setProfileAddress(profile_data[0].publicKey);
             setCurrentProfile(profile_data[0].account);
             let profile_item = profile_data[0].account;
             let obj = {
@@ -97,15 +105,14 @@ const Spot = () => {
                "individual": profile_item.individual,
                "linkList": []
             }
+            let itemf;
             for (let i = 0; i < profile_item.linkList.length; i++) {
-               obj.linkList.push({ "name": profile_item[i].name, "url": profile_item[i].url, "id": profile_item[i].id })
+               itemf = { "id": profile_item.linkList[i].id, "name": profile_item.linkList[i].name, "url": profile_item.linkList[i].url }
+               obj.linkList.push(itemf)
             }
+            console.log(obj)
 
             setLoadedProfile(obj);
-
-
-            setProfileAddress(profile_data[0].publicKey);
-            // setContentList(profile_data[0].account.linkList);
          }
          return profile_data;
       } catch (error) {
@@ -121,9 +128,9 @@ const Spot = () => {
          loadedProfile.lightTheme === currentProfile.lightTheme
       ) {
          for (let i = 0; i < loadedProfile.linkList.length; i++) {
-            if (loadedProfile.linkList[i].name === contentList[i].name
-               && loadedProfile.linkList[i].url === contentList[i].url
-               && loadedProfile.linkList[i].id === contentList[i].id
+            if (loadedProfile.linkList[i].name === loadedProfile.linkList[i].name
+               && loadedProfile.linkList[i].url === loadedProfile.linkList[i].url
+               && loadedProfile.linkList[i].id === loadedProfile.linkList[i].id
             ) {
                console.log('he')
             }
@@ -136,13 +143,13 @@ const Spot = () => {
       try {
          let profile = await loadProfile(init_address)
          if (profile.length > 0 && profile !== []) {
-            setUserInit(true);
+            setHasInitialized(true);
          } else {
-            setUserInit(false)
+            setHasInitialized(false)
          }
          setLoading(false);
       } catch (error) {
-         setUserInit(true);
+         setHasInitialized(true);
          setLoading(false);
          console.log("CHECK IF INIT ERROR: ", error)
       }
@@ -151,7 +158,7 @@ const Spot = () => {
 
    /* Initialize the profile if there is not one associated to their wallet ID */
    const initializeProfile = async () => {
-      if (!userInit) {
+      if (!hasInitialized) {
          try {
             const provider = getProvider();
             const program = new Program(idl, programID, provider);
@@ -189,7 +196,7 @@ const Spot = () => {
 
          // update the profile
          await program.rpc.updateProfile(currentProfile.bio, currentProfile.color,
-            currentProfile.lightTheme, currentProfile.individual, contentList, {
+            currentProfile.lightTheme, currentProfile.individual, currentProfile.linkList, {
             accounts: {
                profile: profileAddress,
                user,
@@ -219,6 +226,7 @@ const Spot = () => {
    const profileContent = () => {
       return (
          <div className="c-profile-content-container">
+            <WelcomePopup />
             <div className="c-pfp" />
             <div className="c-inputContainer">
                <input
@@ -236,7 +244,7 @@ const Spot = () => {
                   placeholder="Your color"
                />
             </div>
-            <CreateContentList contentList={contentList} handleContentListUpdate={handleContentListUpdate} />
+            <CreateContentList contentList={currentProfile.linkList} handleContentListUpdate={handleContentListUpdate} />
             <div className="c-save-btns">
                <button className="c-form-submit-btn" onClick={() => resetProfileData()}>RESET</button>
                <button className="c-form-submit-btn" onClick={() => updateProfileOnChain()}>SAVE</button>
@@ -256,8 +264,11 @@ const Spot = () => {
    const loginNeededContent = () => {
       return (
          <div className="c-login-card">
-            <h1>Login to Create Your SolSpot</h1>
-            <p>You can use any wallet!</p>
+            <div>
+               <h1>Log in.</h1>
+               <h1>Welcome Back!</h1>
+               <p>You can use any wallet!</p>
+            </div>
             <ConnectWallet handleWalletUpdate={handleWalletUpdate} v={"connect"} />
          </div>
       )
@@ -279,10 +290,10 @@ const Spot = () => {
       }
       else {
          if (!loading) {
-            if (userInit) {
+            if (hasInitialized) {
                return profileContent();
             }
-            else if (!userInit) {
+            else if (!hasInitialized) {
                return initializeContent();
             }
          } else {
@@ -299,13 +310,11 @@ const Spot = () => {
       }
    }, [walletAddress]);
 
-
    return (
       <div className="c-main">
          <div className="c-logoContainer">
-            <Logo />
+            <SolSpotLogo className="solspot-logo" onClick={() => clickLogo()} />
             <ConnectWallet handleWalletUpdate={handleWalletUpdate} v={"disconnect"} />
-
          </div>
          {Content()}
       </div>

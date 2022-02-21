@@ -1,0 +1,29 @@
+.spot-backgroundElements {
+	width: 100vw;
+   height: 100vh;
+   position: fixed;
+   z-index: 1;
+}
+
+.spot-particles {
+   z-index: 2;
+}
+
+.spot-background-overlay {
+   position: fixed;
+   background-color: gray;
+	width: 100vw;
+   height: 100vh;
+   opacity: .7;
+   z-index: 3;
+}
+
+.spot-background-overlay2 {
+   background-color: red;
+   position: fixed;
+	width: 10vw;
+   height: 10vh;
+   opacity: .7;
+   z-index: 2;
+}
+

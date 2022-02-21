@@ -26,3 +26,13 @@ https://www.abiraja.com/blog/querying-solana-blockchain
 
 On-Chain Blog Tutorial
 https://learn.figment.io/tutorials/create-a-simple-blog-dapp-on-solana 
+
+
+# NFT address
+A67Ry58HhJs9FAz14K38cHRKoCFsnWyppRcCZD87B5Rf
+
+Dev Address
+7eXSNy1Q2b7SLCWNtprRT6KAViDrk94jj2ht8z1UNoar
+
+Main Hot
+A5Fwcsd3fpBVYXCarvw56EmuDKfSCFZCvEGFAojejT7g

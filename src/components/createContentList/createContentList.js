@@ -61,8 +61,8 @@ const CreateContentList = (props) => {
    const simpleAddContent = () => {
       // make sure it auto sends to bottom
       let newItem = {
-         "name": "Marketplace",
-         "url": "http://yourlink.com",
+         "name": "",
+         "url": "",
          "id": items.length + 1
       }
       props.handleContentListUpdate([...items, newItem]);
@@ -128,14 +128,14 @@ const CreateContentList = (props) => {
                                        value={item.name}
                                        onChange={(event) => changeName(event, index)}
                                        className="c-item-input"
-                                       placeholder="Your name"
+                                       placeholder="Item Name"
                                     />
 
                                     <input
                                        value={item.url}
                                        onChange={(event) => changeURL(event, index)}
                                        className="c-item-input"
-                                       placeholder="Your url"
+                                       placeholder="Item Link"
                                     />
                                     <p className="c-content-item-url">
                                        num: {item.id}

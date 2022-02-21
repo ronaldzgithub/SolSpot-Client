@@ -1,6 +1,9 @@
 import * as React from "react"
 
+
 const SolSpotLogo = (props) => (
+
+
    <svg
       id="Layer_1"
       data-name="Layer 1"

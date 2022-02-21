@@ -22,27 +22,28 @@
 }
 
 .twitter-chip {
-	background-color: #08a0e9;
-	width: min-content;
-	min-width: 80px;
-	padding: 8px 12px;
-	border-radius: 25px;
-	color: white;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	margin: 5px 0px;
-	text-decoration: none;
+   all: unset;
+   width: 50px;
+   height: 40px;
+   border-radius: 5px;
+   background-color: #EAEAEA;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   cursor: pointer;
+   margin: 0px 5px; 
 }
 
 .twitter-name {
+   margin-top: 8px;
+   font-family: Quicksand;
 	text-decoration: none;
 }
 
 .twitter-svg {
-	height: 20px;
-	width: 20px;
-	margin-left: 4px;
-	margin-right: 6px;
-	fill: white;
+	height: 26px;
+	width: 26px;
+   margin-top: 8px;
+	fill: black;
+   opacity: .6;
 }

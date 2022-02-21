@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import Logo from "components/logo/logo.js"
-import NFTShowCase from "components/nftshowcase/nftshowcase"
-import Domain from "components/domain/domain"
-import Twitter from "components/twitter/twitter"
 
-import CopySVG from "assets/copySVG.js"
+import NFTShowCase from "components/spot/nftshowcase/nftshowcase"
+import ProfileHeader from "components/spot/profileHeader/profileHeader"
+import BackgroundElements from "components/spot/backgroundElements/backgroundElements"
+
 import './spot.css'
 import idl from 'idl.json';
 import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
 import { Program, Provider, web3 } from '@project-serum/anchor';
+import { Link, useNavigate } from 'react-router-dom';
 
 // SystemProgram is a reference to the Solana runtime!
 const { SystemProgram, Keypair } = web3;
@@ -23,110 +23,87 @@ const network = clusterApiUrl('devnet');
 
 // Controls how we want to acknowledge when a transaction is "done".
 const opts = {
-  preflightCommitment: "processed"
+   preflightCommitment: "processed"
 }
 
 // A67Ry58HhJs9FAz14K38cHRKoCFsnWyppRcCZD87B5Rf
 
 const Spot = () => {
-  const { id } = useParams();
-  let item = "https://arweave.net/WHiOxMtFT0zjA-IO2BQbKqE7Lm2bDBy20NUdH_lJ-JE"
-  const [loading, setLoading] = useState(true);
-  const [profileData, setProfileData] = useState(null);
-  const [bio, setBio] = useState("fff");
+   const { id } = useParams();
+   const [loading, setLoading] = useState(true);
+   const [profileData, setProfileData] = useState(null);
 
-  const formatAddress = (address) => {
-    let str = address.slice(0, 4) + "...." + address.slice(-4)
-    return str;
-  }
 
-  const getProvider = () => {
-    const connection = new Connection(network, opts.preflightCommitment);
-    const provider = new Provider(
-      connection, window.solana, opts.preflightCommitment,
-    );
-    return provider;
-  }
 
-  const loadProfile = async (address) => {
-    try {
-      const provider = getProvider();
-      const program = new Program(idl, programID, provider);
-      const profile = await program.account.profile.all([
-        {
-          memcmp: {
-            offset: 8, // Discriminator.
-            bytes: address,
-          }
-        }
-      ]);
+   const getProvider = () => {
+      const connection = new Connection(network, opts.preflightCommitment);
+      const provider = new Provider(
+         connection, window.solana, opts.preflightCommitment,
+      );
+      return provider;
+   }
 
-      console.log(profile[0].account);
-      setProfileData(profile[0].account);
-      setBio(profile[0].account.bio);
+   const formatURL = (givenURL) => {
+      let url = "https://" + givenURL;
+      return url;
+   }
 
-      setLoading(false);
+   const loadProfile = async (address) => {
+      try {
+         if (address !== undefined) {
+            const provider = getProvider();
+            const program = new Program(idl, programID, provider);
+            const profile = await program.account.profile.all([
+               {
+                  memcmp: {
+                     offset: 8, // Discriminator.
+                     bytes: address,
+                  }
+               }
+            ]);
+            setProfileData(profile[0].account);
+            setLoading(false);
+         }
+      } catch (error) {
+         console.log("Error Loading Profile", error)
+      }
 
-    } catch (error) {
-      console.log("Error checking init")
-    }
+   }
 
-  }
+   const renderContentList = () => {
+      if (profileData !== null && profileData.linkList.length > 0) {
+         return (
+            <>
+               {profileData.linkList.map((item, index) => (
+                  <a href={formatURL(item.url)} className="spot-content-item" key={item.id}>
+                     <p className="spot-content-item-name">
+                        {item.name}
+                     </p>
+                  </a>
 
-  const renderContentList = () => {
-    if (profileData !== null && profileData.linkList.length > 0) {
-      return (
-        <>
-          {profileData.linkList.map((item, index) => (
-            <div className="c-content-item" key={item.id}>
-              <p className="c-content-item-name">
-                Name: {item.name}
-              </p>
-              <p className="c-content-item-url">
-                URL: {item.url}
-              </p>
-            </div>
+               ))}
+            </>
+         )
+      }
+   }
 
-          ))}
-        </>
-      )
-    }
-  }
+   // UseEffects
+   useEffect(() => {
+      if (id) {
+         loadProfile(id);
+      }
+   }, [id]);
 
-  // UseEffects
-  useEffect(() => {
-    if (id) {
-      loadProfile(id);
-    }
-  }, [id]);
+   return (
+      <div className="spot-main">
+         <ProfileHeader wallet_id={id} profile={profileData} />
+         {renderContentList()}
+         <NFTShowCase id={id} />
 
-  return (
-    <div className="main">
-      <div className="logoContainer">
-        <Logo />
+         <Link to={"/"} className="spot-solspot-footer-logo">solspot</Link>
+         <BackgroundElements />
       </div>
-
-      <div className="spot-header-card">
-        <div className="col1">
-          <img src={item} className="pfp" />
-        </div>
-
-        <div className="col2">
-          <Domain id={id} />
-          <div className="address-chip">
-            <CopySVG className="copy-svg" />
-            <p className="address-text">{formatAddress(id)}</p>
-          </div>
-          <Twitter id={id} />
-          <p>
-            {profileData !== null && profileData.bio}
-          </p>
-        </div>
-      </div>
-      {renderContentList()}
-      <NFTShowCase id={id} />
-    </div>
-  )
+   )
 };
 
 export default Spot;

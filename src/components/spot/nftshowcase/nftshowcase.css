@@ -1,0 +1,39 @@
+.nft-show-main {
+	width: 500px;
+	margin-top: 80px;
+   z-index: 10;
+}
+
+.upperWords {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.title {
+	font-size: 24px;
+   color: white;
+}
+
+.titleBtn {
+	font-size: 24px;
+   color: white;
+	cursor: pointer;
+}
+
+.nft-row {
+	display: flex;
+	flex-direction: row;
+   height: auto;
+   width: auto;
+   margin-bottom: 40px;
+}
+
+.spot-nft-img {
+	background-color: gray;
+	height: 100px;
+	width: 100px;
+	border-radius: 25px;
+	margin: 10px;
+   z-index: 10;
+}

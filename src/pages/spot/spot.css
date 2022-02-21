@@ -1,4 +1,4 @@
-.main {
+.spot-main {
 	position: relative;
 	height: 100%;
 	min-height: 100vh;
@@ -7,71 +7,54 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+   z-index: 10;
 }
 
-.logoContainer {
-	width: 100%;
-}
-
-.spot-header-card {
-	width: 600px;
-	height: 300px;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	padding: 20px;
-	border-radius: 20px;
-	border: 1px solid #fff;
-	border-radius: 15px;
-	box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
-	overflow: hidden;
-	position: relative;
-}
-
-.spot-header-card:before {
-	background-color: rgba(255, 255, 255, 0.801);
-	backdrop-filter: blur(10px) saturate(100%) contrast(45%) brightness(130%);
-	height: 100%;
-	position: absolute;
-	width: 100%;
-}
-
-.spot-header-card .col1 {
-	width: 300px;
+.spot-content-item {
 	height: auto;
+	width: 500px;
+	margin: 10px 0px;
+	padding: 10px;
+	border-radius: 20px;
+	background-color: white;
+   z-index: 10;
+   text-decoration: none;
+	box-shadow: 0 5px 17px rgba(0, 0, 0, 0.2)  ; 
+	-webkit-box-shadow: 0 5px 17px rgba(0, 0, 0, 0.2)  ; 
+	-moz-box-shadow: 0 5px 17px rgba(0, 0, 0, 0.2)  ; 
 }
 
-.spot-header-card .col1 .pfp {
-	height: 200px;
-	width: 200px;
-	border-radius: 60px;
-	margin-left: 30px;
-	background-color: blue;
+
+.spot-content-item-name {
+   width: 100%;
+   text-align: center;
+   text-decoration: none;
+	font-size: 24px;
+	color: black;
 }
 
-.spot-header-card .col2 {
-	width: 300px;
-	height: 100%;
+.spot-solspot-footer-logo {
+	all: unset;
+   font-family: Quicksand;
+   color: white;
+	font-size: 22px;
+	font-weight: 500;
+   cursor: pointer;
+   width: 100%;
+   text-align: center;
+   margin-top: 40px;
+   z-index: 10;
 }
 
-.address-chip {
-	background-color: #333;
-	width: min-content;
-	padding: 8px 12px;
-	border-radius: 25px;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-}
-
-.address-text {
-	color: white;
-}
-
-.copy-svg {
-	fill: white;
-	height: 20px;
-	width: 20px;
-	margin-left: 4px;
-	margin-right: 6px;
+@media screen and (max-width: 480px) {
+   .spot-content-item {
+      width: 85%;
+      margin: 10px 0px;
+      border-radius: 14px;
+   }
+   
+   
+   .spot-content-item-name {
+      font-size: 20px;
+   }
 }
