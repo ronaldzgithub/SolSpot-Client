@@ -2,35 +2,88 @@
 	position: relative;
 	height: 100%;
 	min-height: 100vh;
-	width: 100%;
-	background-color: rgba(255, 255, 255, 0.75);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+   overflow-x: hidden;
 }
 
-.c-logoContainer {
-	all: unset;
+.c-header {
+   position: absolute;
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
-	width: 100%;
+	justify-content: flex-end;
+   width: 100vw;
+   z-index: 10;
 }
 
-.c-pfp {
-	height: 200px;
-	width: 200px;
-	border-radius: 150px;
-	background-color: red;
-}
-
-.searchContainer {
-	height: auto;
-	width: auto;
-	margin-top: 100px;
+.c-overall-profile-container {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
+	align-items: center;
+   width: 100%;
+   overflow-x: hidden;
 }
+
+.c-profile-card {
+	width: 500px;
+   height: auto;
+   min-height: 290px;
+   background-color: #fdfdfd;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   margin-top: 110px;
+   margin-bottom: 50px;
+   border-radius: 20px;
+   z-index: 10;
+	box-shadow: 0 5px 17px rgba(0, 0, 0, 0.2)  ; 
+	-webkit-box-shadow: 0 5px 17px rgba(0, 0, 0, 0.2)  ; 
+	-moz-box-shadow: 0 5px 17px rgba(0, 0, 0, 0.2)  ; 
+}
+
+
+
+.c-profile-card .c-profile-card-pfp {
+   height: 130px;
+   width: 130px;
+   border-radius: 50%;
+   border-width: 8px;
+   border-color: #fdfdfd;
+   border-style: solid;
+   margin-top: -80px;
+}
+
+
+.c-profile-card .c-bio-input {
+	font-size: 18px;
+   font-family: Quicksand;
+   font-weight: 400;
+   width: 80%;
+   border: 1px solid rgba(0, 0, 0, 0.1);
+   height: 100px;
+   padding-top: 7px;
+   border-radius: 5px;
+   margin-bottom: 30px;
+   overflow-wrap: anywhere;
+   resize: none;
+}
+
+.c-profile-card .c-color-input {
+	font-size: 18px;
+   font-family: Quicksand;
+   font-weight: 400;
+   width: 80%;
+   border: 1px solid rgba(0, 0, 0, 0.1);
+   height: 20px;
+   padding-top: 7px;
+   border-radius: 5px;
+   margin-bottom: 30px;
+}
+
+
+
+
 
 .inputContainer {
 	display: flex;
@@ -43,18 +96,6 @@
 	border: 1px solid black;
 }
 
-.searchIcon {
-	height: 100%;
-	margin-left: 20px;
-}
-
-.inputf {
-	all: unset;
-	padding: 6px;
-	padding-left: 15px;
-	font-size: 22px;
-	font-weight: 200px;
-}
 
 .c-form-submit-btn {
 	all: unset;
@@ -80,36 +121,53 @@
 	cursor: pointer;
 }
 
+
+
+
 .c-login-card {
-	padding: 22px;
 	border-radius: 30px;
-   margin-top: 80px;
-   height: 300px;
-   width: 600px;
-   background: rgb(168,193,232);
-   background: linear-gradient(202deg, rgba(168,193,232,1) 17%, rgba(201,240,228,1) 100%);
+   margin-top: 13%;
+   height: 400px;
+   width: 700px;
+   background: rgb(255,255,255);
+   background: linear-gradient(128deg, rgba(255,255,255,0.7) 10%, rgba(255,255,255,0.3) 73%);
    display: flex;
-   flex-direction: column;
+   flex-direction: row;
    align-items: center;
    justify-content: space-between;
+
+   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+   backdrop-filter: blur(9.3px);
+   -webkit-backdrop-filter: blur(9.3px);
+   border: 1px solid rgba(255, 255, 255, 0.43);
 }
 
+.c-login-card img {
+   height: 400px;
+   width: auto;
+
+	border-top-left-radius: 30px;
+   border-bottom-left-radius: 30px;
+}
+
+.c-login-card div {
+   width: 100%;
+   height: 100%;
+}
 
 .c-login-card h1 {
 	color: black;
-   font-size: 42px;
+   font-size: 34px;
    font-family: Quicksand;
-	margin: 0;
+   font-weight: 800;
+   margin: 30px 0px 0px 15px;
 }
 .c-login-card p {
 	color: black;
-	font-size: 14px;
-}
-
-.c-profile-content-container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+   font-family: Quicksand;
+   font-weight: 600;
+	font-size: 26px;
+   margin: 10px 0px 0px 15px;
 }
 
 .c-save-btns {

@@ -27,6 +27,11 @@ https://www.abiraja.com/blog/querying-solana-blockchain
 On-Chain Blog Tutorial
 https://learn.figment.io/tutorials/create-a-simple-blog-dapp-on-solana 
 
+background
+https://codepen.io/matteobruni/pen/qBPxjQY
+
+CSS Glass
+https://css.glass/ 
 
 # NFT address
 A67Ry58HhJs9FAz14K38cHRKoCFsnWyppRcCZD87B5Rf

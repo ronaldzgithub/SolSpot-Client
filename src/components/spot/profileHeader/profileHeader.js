@@ -5,6 +5,7 @@ import SolanaLogo from "assets/solanaLogo";
 import { useNavigate } from 'react-router-dom';
 
 import './profileHeader.css';
+import * as SupportFunctions from "services/general"
 
 let item = "https://arweave.net/WHiOxMtFT0zjA-IO2BQbKqE7Lm2bDBy20NUdH_lJ-JE";
 
@@ -19,10 +20,6 @@ const ProfileHeader = (props) => {
       }
    }
 
-   const formatAddress = (address) => {
-      let str = address.slice(0, 4) + "...." + address.slice(-4)
-      return str;
-   }
 
 
    const Links = () => {
@@ -64,7 +61,7 @@ const ProfileHeader = (props) => {
       <div className="spot-profile-header">
          <img className="spot-profile-header-img" src={item} />
          <Domain />
-         <p className="spot-profile-header-wallet">{formatAddress(wallet_id)}</p>
+         <p className="spot-profile-header-wallet">{SupportFunctions.formatAddress(wallet_id)}</p>
          {Bio()}
 
          <Links />

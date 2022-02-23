@@ -7,7 +7,7 @@
    top: 0;
    opacity: 0;
    animation-name: popup;
-   animation-duration: 5s;
+   animation-duration: 3s;
    animation-iteration-count: 1;
    animation-timing-function: ease-in;
    visibility: hidden;

@@ -18,26 +18,17 @@ const reorder = (list, startIndex, endIndex) => {
    return result;
 };
 
-const grid = 8;
 
 const getItemStyle = (isDragging, draggableStyle) => ({
    // some basic styles to make the items look a bit nicer
    userSelect: "none",
-   padding: grid * 2,
-   margin: `0 0 8px 0`,
    borderRadius: 10,
    // change background colour if dragging
-   background: isDragging ? 'red' : "#333333",
+   background: isDragging && 'gray',
 
    // styles we need to apply on draggables
    ...draggableStyle
 });
-
-const getListStyle = () => ({
-   padding: 8,
-   width: 450,
-});
-
 
 const CreateContentList = (props) => {
    const [items, setItems] = useState([]);
@@ -103,15 +94,15 @@ const CreateContentList = (props) => {
    // But in this example everything is just done in one place for simplicity
    if (items.length !== 0) {
       return (
-         <>
-            <DragDropContext onDragEnd={onDragEnd}>
-               <Droppable droppableId="droppable">
+         <div className="content-list-root">
+            <DragDropContext style={{ overflowX: "hidden" }} onDragEnd={onDragEnd}>
+               <Droppable style={{ overflowX: "hidden" }} droppableId="droppable">
                   {(provided, snapshot) => (
                      <div
                         {...provided.droppableProps}
                         ref={provided.innerRef}
-                        style={getListStyle(snapshot.isDraggingOver)}
                      >
+                        <h2 className="c-widget-title">Content List</h2>
                         {items.map((item, index) => (
                            <Draggable key={item.id} draggableId={"item=" + item.id} index={index}>
                               {(provided, snapshot) => (
@@ -119,29 +110,31 @@ const CreateContentList = (props) => {
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
+                                    className="c-content-link-item"
                                     style={getItemStyle(
                                        snapshot.isDragging,
                                        provided.draggableProps.style
                                     )}
                                  >
-                                    <input
-                                       value={item.name}
-                                       onChange={(event) => changeName(event, index)}
-                                       className="c-item-input"
-                                       placeholder="Item Name"
-                                    />
+                                    <DragIcon className="c-drag-icon" onClick={() => deleteItem(index)} />
+                                    <div className="c-input-col">
+                                       <input
+                                          value={item.name}
+                                          onChange={(event) => changeName(event, index)}
+                                          className="c-item-input"
+                                          placeholder="Name"
+                                          style={{ fontWeight: 600 }}
+                                       />
 
-                                    <input
-                                       value={item.url}
-                                       onChange={(event) => changeURL(event, index)}
-                                       className="c-item-input"
-                                       placeholder="Item Link"
-                                    />
-                                    <p className="c-content-item-url">
-                                       num: {item.id}
-                                    </p>
-                                    <DeleteIcon onClick={() => deleteItem(index)} style={{ cursor: 'pointer' }} />
-                                    <DragIcon onClick={() => deleteItem(index)} style={{ cursor: 'grab' }} />
+                                       <input
+                                          value={item.url}
+                                          onChange={(event) => changeURL(event, index)}
+                                          className="c-item-input"
+                                          placeholder="URL"
+                                       />
+                                    </div>
+
+                                    <DeleteIcon className="c-delete-icon" onClick={() => deleteItem(index)} style={{ cursor: 'pointer' }} />
                                  </div>
                               )}
                            </Draggable>
@@ -151,8 +144,8 @@ const CreateContentList = (props) => {
                   )}
                </Droppable>
             </DragDropContext>
-            <button onClick={() => simpleAddContent()} className="c-content-add-item-btn">Add New Item</button>
-         </>
+            <button onClick={() => simpleAddContent()} className="c-content-add-link-btn">Add New Item</button>
+         </div>
       );
    } else {
       return (

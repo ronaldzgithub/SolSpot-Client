@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import SolSpotLogo from "assets/solspot_logo";
 import ConnectWallet from "components/connectWallet/connectWallet.js";
 import CreateContentList from "components/createContentList/createContentList";
 import idl from 'idl.json';
@@ -8,15 +7,22 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-
+import BackgroundElements from 'components/spot/backgroundElements/backgroundElements';
+import * as SupportFunctions from "services/general"
+import FloatingSpeedDial from "components/speedDial/speedDial"
 
 import "./create.css"
 
+import Space_Img from "assets/login_space.png";
+
 import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
 import { Program, Provider, web3 } from '@project-serum/anchor';
+import Domain from "components/domain/domain"
+import NFTShowCase from 'components/spot/nftshowcase/nftshowcase';
 
 
 
+let item = "https://arweave.net/WHiOxMtFT0zjA-IO2BQbKqE7Lm2bDBy20NUdH_lJ-JE";
 // SystemProgram is a reference to the Solana runtime!
 const { SystemProgram } = web3;
 
@@ -69,11 +75,16 @@ const Spot = () => {
 
 
    const getProvider = () => {
-      const connection = new Connection(network, opts.preflightCommitment);
-      const provider = new Provider(
-         connection, window.solana, opts.preflightCommitment,
-      );
-      return provider;
+      try {
+         const connection = new Connection(network, opts.preflightCommitment);
+         const provider = new Provider(
+            connection, window.solana, opts.preflightCommitment,
+         );
+         return provider;
+      } catch (error) {
+         console.log("Get Provider Error: ", error)
+      }
+
    }
 
    const clickLogo = () => {
@@ -143,11 +154,15 @@ const Spot = () => {
       try {
          let profile = await loadProfile(init_address)
          if (profile.length > 0 && profile !== []) {
+
             setHasInitialized(true);
          } else {
             setHasInitialized(false)
          }
+
+
          setLoading(false);
+
       } catch (error) {
          setHasInitialized(true);
          setLoading(false);
@@ -210,9 +225,16 @@ const Spot = () => {
 
 
    const changeBio = (event) => {
-      let tempProfileFromCurrentProfile = currentProfile;
-      tempProfileFromCurrentProfile.bio = event.target.value;
-      setCurrentProfile(tempProfileFromCurrentProfile => ({ ...tempProfileFromCurrentProfile, bio: event.target.value }));
+      if (event.target.value.length > 150) {
+         console.log("greater than 150 ", event.target.value.length)
+
+      }
+      else {
+         let tempProfileFromCurrentProfile = currentProfile;
+         tempProfileFromCurrentProfile.bio = event.target.value;
+         setCurrentProfile(tempProfileFromCurrentProfile => ({ ...tempProfileFromCurrentProfile, bio: event.target.value }));
+
+      }
    };
 
 
@@ -225,18 +247,27 @@ const Spot = () => {
 
    const profileContent = () => {
       return (
-         <div className="c-profile-content-container">
+         <div className="c-overall-profile-container">
             <WelcomePopup />
-            <div className="c-pfp" />
-            <div className="c-inputContainer">
-               <input
+            <div className="c-header">
+               <ConnectWallet handleWalletUpdate={handleWalletUpdate} v={"disconnect"} wallet_address={walletAddress} />
+
+            </div>
+
+            <div className="c-profile-card">
+
+
+               <img className="c-profile-card-pfp" src={item} />
+               <Domain />
+               <p className="spot-profile-header-wallet">{SupportFunctions.formatAddress(walletAddress)}</p>
+
+               <textarea
                   value={currentProfile.bio}
                   onChange={changeBio}
                   className="c-bio-input"
                   placeholder="Your Bio"
+                  rows={5}
                />
-            </div>
-            <div className="c-inputContainer">
                <input
                   value={currentProfile.color}
                   onChange={changeColor}
@@ -246,9 +277,10 @@ const Spot = () => {
             </div>
             <CreateContentList contentList={currentProfile.linkList} handleContentListUpdate={handleContentListUpdate} />
             <div className="c-save-btns">
-               <button className="c-form-submit-btn" onClick={() => resetProfileData()}>RESET</button>
-               <button className="c-form-submit-btn" onClick={() => updateProfileOnChain()}>SAVE</button>
+               <FloatingSpeedDial reset_profile={resetProfileData} update_profile={updateProfileOnChain} />
             </div>
+            <NFTShowCase />
+            <BackgroundElements />
          </div>
       )
    };
@@ -264,20 +296,12 @@ const Spot = () => {
    const loginNeededContent = () => {
       return (
          <div className="c-login-card">
+            <img src={Space_Img} />
             <div>
-               <h1>Log in.</h1>
-               <h1>Welcome Back!</h1>
-               <p>You can use any wallet!</p>
+               <h1>Welcome to SolSpot</h1>
+               <p>Log in with any wallet!</p>
+               <ConnectWallet handleWalletUpdate={handleWalletUpdate} v={"connect"} />
             </div>
-            <ConnectWallet handleWalletUpdate={handleWalletUpdate} v={"connect"} />
-         </div>
-      )
-   };
-
-   const loadingContent = () => {
-      return (
-         <div>
-            <p>loading bro</p>
          </div>
       )
    };
@@ -289,19 +313,16 @@ const Spot = () => {
          return loginNeededContent();
       }
       else {
-         if (!loading) {
-            if (hasInitialized) {
-               return profileContent();
-            }
-            else if (!hasInitialized) {
-               return initializeContent();
-            }
-         } else {
-            return loadingContent();
+
+         if (hasInitialized) {
+            return profileContent();
          }
+         else if (!hasInitialized && !loading) {
+            return initializeContent();
+         }
+
       }
    }
-
 
    // UseEffects
    useEffect(() => {
@@ -312,11 +333,8 @@ const Spot = () => {
 
    return (
       <div className="c-main">
-         <div className="c-logoContainer">
-            <SolSpotLogo className="solspot-logo" onClick={() => clickLogo()} />
-            <ConnectWallet handleWalletUpdate={handleWalletUpdate} v={"disconnect"} />
-         </div>
          {Content()}
+         {!hasInitialized && <BackgroundElements />}
       </div>
    )
 };

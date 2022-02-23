@@ -18,7 +18,7 @@ const BackgroundElements = (props) => {
             id="tsparticles-stars2"
             className="spot-particles"
             options={{
-               fpsLimit: 60,
+               fpsLimit: 10,
                fullScreen: { enable: true },
                particles: {
                   number: {
@@ -37,22 +37,6 @@ const BackgroundElements = (props) => {
                         minimumValue: 200
                      }
                   },
-                  move: {
-                     enable: true,
-                     speed: 10,
-                     direction: "top",
-                     outModes: {
-                        default: "out",
-                        top: "destroy",
-                        bottom: "none"
-                     }
-                  }
-               },
-               interactivity: {
-                  detectsOn: "canvas",
-                  events: {
-                     resize: true
-                  }
                },
                style: {
                   filter: "blur(50px)"
