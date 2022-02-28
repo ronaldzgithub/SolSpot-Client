@@ -42,10 +42,11 @@ const Twitter = (props) => {
    }, props.id);
 
 
+   // urlLoaded
    const RenderTwitter = () => {
-      if (urlLoaded) {
+      if (true) {
          return (
-            <a href={twitterURL} target="_blank" rel="noreferrer" className="twitter-chip">
+            <a href={true} target="_blank" rel="noreferrer" className="twitter-chip">
                <TwitterSVG className="twitter-svg" />
             </a>
          )

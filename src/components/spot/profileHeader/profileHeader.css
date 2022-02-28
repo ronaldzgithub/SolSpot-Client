@@ -1,11 +1,11 @@
 .spot-profile-header {
 	width: 500px;
    height: auto;
-   min-height: 290px;
    background-color: #fdfdfd;
    display: flex;
    flex-direction: column;
    align-items: center;
+   justify-content: space-between;
    margin-top: 110px;
    margin-bottom: 50px;
    padding: 10px;
@@ -14,6 +14,15 @@
 	box-shadow: 0 5px 17px rgba(0, 0, 0, 0.2)  ; 
 	-webkit-box-shadow: 0 5px 17px rgba(0, 0, 0, 0.2)  ; 
 	-moz-box-shadow: 0 5px 17px rgba(0, 0, 0, 0.2)  ; 
+}
+
+.spot-profile-header-upper-container {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   width: 100%;
+   height: auto;
+   justify-content: flex-start;
 }
 
 .spot-profile-header-img {
@@ -31,14 +40,14 @@
    font-family: Quicksand;
    font-weight: 300;
    margin-top: 6px;
-   margin-bottom: 22px;
+   margin-bottom: 10px;
 }
 
 .spot-profile-header-bio {
 	font-size: 18px;
    font-family: Quicksand;
    font-weight: 400;
-   margin-bottom: 36px;
+   margin-bottom: 30px;
    width: 80%;
    text-align: center;
 }

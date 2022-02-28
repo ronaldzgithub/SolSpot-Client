@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import Domain from "components/domain/domain";
 import Twitter from "components/twitter/twitter";
 import SolanaLogo from "assets/solanaLogo";
-import { useNavigate } from 'react-router-dom';
+import QRIcon from "assets/qrIcon";
+import ShareIcon from "assets/shareIcon";
 
+import * as SupportFunctions from "services/general";
 import './profileHeader.css';
-import * as SupportFunctions from "services/general"
 
 let item = "https://arweave.net/WHiOxMtFT0zjA-IO2BQbKqE7Lm2bDBy20NUdH_lJ-JE";
 
@@ -30,6 +33,12 @@ const ProfileHeader = (props) => {
             </a>
 
             <Twitter wallet_id={wallet_id} />
+            <a className="spot-profile-header-button" href={clickLink("qr")}>
+               <QRIcon className="spot-profile-header-button-sol" wallet_id={wallet_id} />
+            </a>
+            <a className="spot-profile-header-button" href={clickLink("qr")}>
+               <ShareIcon className="spot-profile-header-button-sol" wallet_id={wallet_id} />
+            </a>
          </div>
       )
    }
@@ -59,11 +68,12 @@ const ProfileHeader = (props) => {
 
    return (
       <div className="spot-profile-header">
-         <img className="spot-profile-header-img" src={item} />
-         <Domain />
-         <p className="spot-profile-header-wallet">{SupportFunctions.formatAddress(wallet_id)}</p>
-         {Bio()}
-
+         <div className="spot-profile-header-upper-container">
+            <img className="spot-profile-header-img" src={item} />
+            <Domain />
+            <p className="spot-profile-header-wallet">{SupportFunctions.formatAddress(wallet_id)}</p>
+            {Bio()}
+         </div>
          <Links />
       </div>
    )

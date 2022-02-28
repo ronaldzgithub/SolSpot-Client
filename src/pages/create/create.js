@@ -279,7 +279,7 @@ const Spot = () => {
             <div className="c-save-btns">
                <FloatingSpeedDial reset_profile={resetProfileData} update_profile={updateProfileOnChain} />
             </div>
-            <NFTShowCase />
+            <NFTShowCase wallet_address={walletAddress} />
             <BackgroundElements />
          </div>
       )

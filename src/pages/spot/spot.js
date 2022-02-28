@@ -8,11 +8,8 @@ import BackgroundElements from "components/spot/backgroundElements/backgroundEle
 import './spot.css'
 import idl from 'idl.json';
 import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
-import { Program, Provider, web3 } from '@project-serum/anchor';
-import { Link, useNavigate } from 'react-router-dom';
-
-// SystemProgram is a reference to the Solana runtime!
-const { SystemProgram, Keypair } = web3;
+import { Program, Provider } from '@project-serum/anchor';
+import { Link } from 'react-router-dom';
 
 // Get our program's id from the IDL file.
 const programID = new PublicKey(idl.metadata.address);
@@ -98,7 +95,7 @@ const Spot = () => {
       <div className="spot-main">
          <ProfileHeader wallet_id={id} profile={profileData} />
          {renderContentList()}
-         <NFTShowCase id={id} />
+         <NFTShowCase wallet_address={id} />
 
          <Link to={"/"} className="spot-solspot-footer-logo">solspot</Link>
          <BackgroundElements />
