@@ -30,6 +30,9 @@ https://learn.figment.io/tutorials/create-a-simple-blog-dapp-on-solana
 background
 https://codepen.io/matteobruni/pen/qBPxjQY
 
+wallet adapter
+https://github.com/solana-labs/wallet-adapter 
+
 CSS Glass
 https://css.glass/ 
 

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import ConnectWallet from "components/connectWallet/connectWallet.js";
+import React, { useState, useEffect, useMemo } from 'react';
 import CreateContentList from "components/createContentList/createContentList";
 import idl from 'idl.json';
 import WelcomePopup from 'components/welcomePopup/welcomePopup';
@@ -19,6 +18,12 @@ import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
 import { Program, Provider, web3 } from '@project-serum/anchor';
 import Domain from "components/domain/domain"
 import NFTShowCase from 'components/spot/nftshowcase/nftshowcase';
+
+import {
+   WalletDisconnectButton,
+   WalletMultiButton
+} from '@solana/wallet-adapter-react-ui';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 
 
 
@@ -40,8 +45,6 @@ const opts = {
 
 const Spot = () => {
    let navigate = useNavigate();
-   // wallet address of the user
-   const [walletAddress, setWalletAddress] = useState("");
 
    // profile address of the loaded profile
    const [profileAddress, setProfileAddress] = useState("");
@@ -53,15 +56,13 @@ const Spot = () => {
 
    // is or is not loading
    const [profileHasChanged, setProfileHasChanged] = useState(true);
+   const [nftData, setNftData] = useState(null);
    const [loading, setLoading] = useState(true);
 
+   // public key of wallet
+   const { publicKey } = useWallet();
 
 
-
-   const handleWalletUpdate = (address) => {
-      let newAddress = address;
-      setWalletAddress(newAddress);
-   }
 
    const handleContentListUpdate = (arr) => {
       let obj = currentProfile;
@@ -87,12 +88,8 @@ const Spot = () => {
 
    }
 
-   const clickLogo = () => {
-      navigate(`/`);
-   }
 
-
-   const loadProfile = async (user_wallet_address) => {
+   const loadProfile = async (passed_public_key) => {
       try {
          const provider = getProvider();
          const program = new Program(idl, programID, provider);
@@ -100,7 +97,7 @@ const Spot = () => {
             {
                memcmp: {
                   offset: 8, // Discriminator.
-                  bytes: user_wallet_address,
+                  bytes: passed_public_key,
                }
             }
          ]);
@@ -150,19 +147,15 @@ const Spot = () => {
       setProfileHasChanged(profileChanged);
    }
 
-   const checkIfInit = async (init_address) => {
+   const checkIfInit = async (passed_public_key) => {
       try {
-         let profile = await loadProfile(init_address)
+         let profile = await loadProfile(passed_public_key)
          if (profile.length > 0 && profile !== []) {
-
             setHasInitialized(true);
          } else {
             setHasInitialized(false)
          }
-
-
          setLoading(false);
-
       } catch (error) {
          setHasInitialized(true);
          setLoading(false);
@@ -192,7 +185,7 @@ const Spot = () => {
 
             console.log("Created a new Profile w/ address:", profile_address.publicKey.toString())
             setProfileAddress(profile_address.publicKey);
-            checkIfInit(walletAddress);
+            checkIfInit(publicKey);
 
          } catch (error) {
             console.log("Error creating Profile account:", error)
@@ -227,13 +220,11 @@ const Spot = () => {
    const changeBio = (event) => {
       if (event.target.value.length > 150) {
          console.log("greater than 150 ", event.target.value.length)
-
       }
       else {
          let tempProfileFromCurrentProfile = currentProfile;
          tempProfileFromCurrentProfile.bio = event.target.value;
          setCurrentProfile(tempProfileFromCurrentProfile => ({ ...tempProfileFromCurrentProfile, bio: event.target.value }));
-
       }
    };
 
@@ -250,8 +241,7 @@ const Spot = () => {
          <div className="c-overall-profile-container">
             <WelcomePopup />
             <div className="c-header">
-               <ConnectWallet handleWalletUpdate={handleWalletUpdate} v={"disconnect"} wallet_address={walletAddress} />
-
+               <WalletMultiButton />
             </div>
 
             <div className="c-profile-card">
@@ -259,7 +249,7 @@ const Spot = () => {
 
                <img className="c-profile-card-pfp" src={item} />
                <Domain />
-               <p className="spot-profile-header-wallet">{SupportFunctions.formatAddress(walletAddress)}</p>
+               <p className="spot-profile-header-wallet">{SupportFunctions.formatAddress(publicKey.toString())}</p>
 
                <textarea
                   value={currentProfile.bio}
@@ -279,7 +269,7 @@ const Spot = () => {
             <div className="c-save-btns">
                <FloatingSpeedDial reset_profile={resetProfileData} update_profile={updateProfileOnChain} />
             </div>
-            <NFTShowCase wallet_address={walletAddress} />
+            <NFTShowCase wallet_address={publicKey} nftData={nftData} />
             <BackgroundElements />
          </div>
       )
@@ -300,7 +290,7 @@ const Spot = () => {
             <div>
                <h1>Welcome to SolSpot</h1>
                <p>Log in with any wallet!</p>
-               <ConnectWallet handleWalletUpdate={handleWalletUpdate} v={"connect"} />
+               <WalletMultiButton />
             </div>
          </div>
       )
@@ -309,11 +299,10 @@ const Spot = () => {
 
    /* Oof. This hurt head. */
    const Content = () => {
-      if (!walletAddress) {
+      if (publicKey === undefined || publicKey === null) {
          return loginNeededContent();
       }
       else {
-
          if (hasInitialized) {
             return profileContent();
          }
@@ -325,11 +314,12 @@ const Spot = () => {
    }
 
    // UseEffects
-   useEffect(() => {
-      if (walletAddress) {
-         checkIfInit(walletAddress);
+   useEffect(async () => {
+      if (publicKey) {
+         checkIfInit(publicKey);
+         setNftData(await SupportFunctions.getNFTData(publicKey));
       }
-   }, [walletAddress]);
+   }, [publicKey]);
 
    return (
       <div className="c-main">

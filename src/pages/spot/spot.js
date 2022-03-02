@@ -6,6 +6,7 @@ import ProfileHeader from "components/spot/profileHeader/profileHeader"
 import BackgroundElements from "components/spot/backgroundElements/backgroundElements"
 
 import './spot.css'
+import * as SupportFunctions from "services/general";
 import idl from 'idl.json';
 import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
 import { Program, Provider } from '@project-serum/anchor';
@@ -26,11 +27,10 @@ const opts = {
 // A67Ry58HhJs9FAz14K38cHRKoCFsnWyppRcCZD87B5Rf
 
 const Spot = () => {
-   const { id } = useParams();
+   const { searchedPublicKey } = useParams();
    const [loading, setLoading] = useState(true);
    const [profileData, setProfileData] = useState(null);
-
-
+   const [nftData, setNftData] = useState(null);
 
    const getProvider = () => {
       const connection = new Connection(network, opts.preflightCommitment);
@@ -64,39 +64,46 @@ const Spot = () => {
       } catch (error) {
          console.log("Error Loading Profile", error)
       }
-
    }
 
    const renderContentList = () => {
       if (profileData !== null && profileData.linkList.length > 0) {
          return (
-            <>
+            <div className="spot-content-list">
                {profileData.linkList.map((item, index) => (
-                  <a href={formatURL(item.url)} className="spot-content-item" key={item.id}>
-                     <p className="spot-content-item-name">
-                        {item.name}
-                     </p>
-                  </a>
+                  <a href={formatURL(item.url)} className="spot-content-list-item" key={item.id}>
 
+                     {item.name}
+
+                  </a>
                ))}
-            </>
+            </div>
          )
       }
    }
 
    // UseEffects
-   useEffect(() => {
-      if (id) {
-         loadProfile(id);
-      }
-   }, [id]);
+   useEffect(async () => {
+      loadProfile(searchedPublicKey);
+      setNftData(await SupportFunctions.getNFTData(searchedPublicKey));
+   }, []);
 
    return (
       <div className="spot-main">
-         <ProfileHeader wallet_id={id} profile={profileData} />
+         <ProfileHeader wallet_address={searchedPublicKey} profile={profileData} nftData={nftData} />
          {renderContentList()}
-         <NFTShowCase wallet_address={id} />
 
+         <iframe
+            className="spot-youtube"
+            allow="fullscreen"
+            mozallowfullscreen="mozallowfullscreen"
+            msallowfullscreen="msallowfullscreen"
+            oallowfullscreen="oallowfullscreen"
+            webkitallowfullscreen="webkitallowfullscreen"
+            src="https://www.youtube.com/embed/gVhtB0W8sMk"
+         />
+
+         <NFTShowCase wallet_address={searchedPublicKey} nftData={nftData} />
          <Link to={"/"} className="spot-solspot-footer-logo">solspot</Link>
          <BackgroundElements />
       </div>

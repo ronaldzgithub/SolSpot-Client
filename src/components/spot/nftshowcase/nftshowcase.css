@@ -12,6 +12,7 @@
    font-family: Quicksand;
    font-weight: 600;
    margin-left: 10px;
+   margin-top: 50px;
 }
 
 .nft-view-more {
@@ -31,6 +32,7 @@
    flex-wrap: wrap;
    height: auto;
    width: auto;
+   margin-bottom: 50px;
 }
 
 .nft-card {
@@ -78,6 +80,7 @@
    flex-wrap: wrap;
    height: auto;
    width: auto;
+   margin-bottom: 50px;
 }
 
 .nft-card-loading {

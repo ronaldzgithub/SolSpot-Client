@@ -10,20 +10,22 @@ const Twitter = (props) => {
    const [twitterURL, setTwitterURL] = useState("");
    const [urlLoaded, setUrlLoaded] = useState(null);
 
-   const address = props.wallet_id;
+   const wallet_address = props.wallet_address;
    let connection = new web3.Connection(web3.clusterApiUrl("mainnet-beta"));
 
 
-   const getTwitterHandle = async () => {
+   const getTwitterHandle = async (passed_wallet_address) => {
       try {
-         const pubkey = new web3.PublicKey(address);
+         if (wallet_address === undefined) return;
+         if (wallet_address === null) return;
+
+         const pubkey = new web3.PublicKey(passed_wallet_address);
          const data = await getHandleAndRegistryKey(connection, pubkey);
-         console.log(data[0])
          setTwitterHandle(data[0]);
          setTwitterURL(formatTwitterURL(data[0]));
          setUrlLoaded(true);
       } catch (error) {
-         console.log("No Twitter Handle for: ", props.id)
+         console.log("No Twitter Handle for: ", props.wallet_address)
       }
 
    }
@@ -37,25 +39,17 @@ const Twitter = (props) => {
 
 
    // UseEffects
-   useEffect(async () => {
-      getTwitterHandle();
-   }, props.id);
+   useEffect(() => {
+      getTwitterHandle(wallet_address);
+   }, []);
 
 
    // urlLoaded
    const RenderTwitter = () => {
-      if (true) {
+      if (urlLoaded) {
          return (
-            <a href={true} target="_blank" rel="noreferrer" className="twitter-chip">
+            <a href={twitterURL} target="_blank" rel="noreferrer" className="twitter-chip">
                <TwitterSVG className="twitter-svg" />
-            </a>
-         )
-      }
-      if (null) {
-         return (
-            <a className="twitter-chip">
-               <TwitterSVG className="twitter-svg" />
-               <p className="twitter-name">Loading</p>
             </a>
          )
       }

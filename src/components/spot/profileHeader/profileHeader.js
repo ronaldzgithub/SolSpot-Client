@@ -10,16 +10,16 @@ import ShareIcon from "assets/shareIcon";
 import * as SupportFunctions from "services/general";
 import './profileHeader.css';
 
-let item = "https://arweave.net/WHiOxMtFT0zjA-IO2BQbKqE7Lm2bDBy20NUdH_lJ-JE";
 
 const ProfileHeader = (props) => {
    let navigate = useNavigate();
-   let wallet_id = props.wallet_id;
+   let wallet_address = props.wallet_address;
    const [profileData, setProfileData] = useState(null);
+   const [pfpURL, setPfpURL] = useState("");
 
    const clickLink = (btn) => {
       if (btn == "sol") {
-         return "https://explorer.solana.com/address/" + props.wallet_id;
+         return "https://explorer.solana.com/address/" + wallet_address;
       }
    }
 
@@ -32,12 +32,12 @@ const ProfileHeader = (props) => {
                <SolanaLogo className="spot-profile-header-button-sol" />
             </a>
 
-            <Twitter wallet_id={wallet_id} />
+            <Twitter wallet_address={wallet_address} />
             <a className="spot-profile-header-button" href={clickLink("qr")}>
-               <QRIcon className="spot-profile-header-button-sol" wallet_id={wallet_id} />
+               <QRIcon className="spot-profile-header-button-sol" wallet_id={wallet_address} />
             </a>
             <a className="spot-profile-header-button" href={clickLink("qr")}>
-               <ShareIcon className="spot-profile-header-button-sol" wallet_id={wallet_id} />
+               <ShareIcon className="spot-profile-header-button-sol" wallet_id={wallet_address} />
             </a>
          </div>
       )
@@ -50,6 +50,14 @@ const ProfileHeader = (props) => {
          setProfileData(props.profile);
       }
    }, [props.profile]);
+
+   // UseEffects
+   useEffect(() => {
+      // Newly added guard clauses. nice.
+      if (props.nftData === null) return;
+      if (props.nftData.length == 0) return;
+      setPfpURL(props.nftData[0].img_url);
+   }, [props.nftData]);
 
    const Bio = () => {
       if (profileData !== null) {
@@ -69,9 +77,11 @@ const ProfileHeader = (props) => {
    return (
       <div className="spot-profile-header">
          <div className="spot-profile-header-upper-container">
-            <img className="spot-profile-header-img" src={item} />
-            <Domain />
-            <p className="spot-profile-header-wallet">{SupportFunctions.formatAddress(wallet_id)}</p>
+            {pfpURL !== "" && <img className="spot-profile-header-img" src={pfpURL} />}
+            {pfpURL == "" && <div className="spot-profile-header-img" />}
+
+            <Domain wallet_address={wallet_address} />
+            <p className="spot-profile-header-wallet">{SupportFunctions.formatAddress(wallet_address)}</p>
             {Bio()}
          </div>
          <Links />

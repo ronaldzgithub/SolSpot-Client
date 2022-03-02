@@ -7,7 +7,7 @@
    align-items: center;
    justify-content: space-between;
    margin-top: 110px;
-   margin-bottom: 50px;
+   margin-bottom: 30px;
    padding: 10px;
    border-radius: 20px;
    z-index: 10;
@@ -26,11 +26,13 @@
 }
 
 .spot-profile-header-img {
+   all: unset;
    height: 130px;
    width: 130px;
    border-radius: 50%;
    border-width: 8px;
    border-color: #fdfdfd;
+   background-color: #fdfdfd;
    border-style: solid;
    margin-top: -80px;
 }

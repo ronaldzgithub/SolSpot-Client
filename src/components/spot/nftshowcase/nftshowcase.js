@@ -1,56 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import * as web3 from "@solana/web3.js";
-import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import './nftshowcase.css'
+
 const NFTShowCase = (props) => {
    const [fullNftArr, setFullNftArr] = useState([]);
    const [renderedNFTs, setRenderedNFTs] = useState(4);
-   const [loaded, setLoaded] = useState(false)
-
-   const getData = async (address) => {
-      try {
-         if (address !== undefined) {
-            // mainnet-beta or devnet
-            let connection = new web3.Connection(web3.clusterApiUrl("mainnet-beta"));
-
-            if (address !== null) {
-               const nftMetadata = await Metadata.findDataByOwner(
-                  connection,
-                  address
-               );
-
-
-               let temp_nftArr = [];
-               for (let i = 0; i < nftMetadata.length; i++) {
-                  temp_nftArr.push({
-                     "name": nftMetadata[i].data.name,
-                     "token_id": nftMetadata[i].mint,
-                     "img_url": "init"
-                  })
-               }
-
-               let end = nftMetadata.length;
-
-               for (let i = 0; i < end; i++) {
-                  await fetch(nftMetadata[i].data.uri)
-                     .then(response => response.json())
-                     .then(data => {
-
-                        temp_nftArr[i].img_url = "" + data.image;
-                     })
-                     .catch(error => {
-                        console.error(error);
-                     });
-               }
-               setFullNftArr(temp_nftArr);
-            }
-         }
-
-      }
-      catch (error) {
-         console.log("Error in getting NFTs: ", error)
-      }
-   }
+   const [loaded, setLoaded] = useState(false);
 
    const formatURL = (url) => {
       let link = "https://explorer.solana.com/address/" + url;
@@ -68,7 +22,7 @@ const NFTShowCase = (props) => {
                   </a>
                ))}
                {!(renderedNFTs >= fullNftArr.length) &&
-                  <p onClick={() => setRenderedNFTs(renderedNFTs + 4)} className="nft-view-more">Load More</p>
+                  <p onClick={() => setRenderedNFTs(renderedNFTs + 4)} className="nft-view-more">View More</p>
                }
             </div>
          )
@@ -85,17 +39,18 @@ const NFTShowCase = (props) => {
       }
    }
 
+
    // UseEffects
    useEffect(() => {
-      getData(props.wallet_address);
-      setLoaded(true);
-      console.log(fullNftArr);
-   }, [props.wallet_address]);
+      if (props.nftData !== null) {
+         setFullNftArr(props.nftData);
+         setLoaded(true);
+      }
+   }, [props.nftData]);
 
    return (
       <div className="nft-show-main">
          {fullNftArr.length > 0 && <p className="nft-title">NFTs</p>}
-
          <RenderImages />
       </div>
    )
