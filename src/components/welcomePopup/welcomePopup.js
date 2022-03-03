@@ -5,7 +5,7 @@ const WelcomePopup = () => {
 
    return (
       <div className="welcome-popup">
-         <h2>Welcome Back.</h2>
+         <h2>Hello.</h2>
       </div>
    )
 };

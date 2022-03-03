@@ -6,6 +6,7 @@ import Twitter from "components/twitter/twitter";
 import SolanaLogo from "assets/solanaLogo";
 import QRIcon from "assets/qrIcon";
 import ShareIcon from "assets/shareIcon";
+import QRCodeDialog from "components/spot/qrCodeDialog/qrCodeDialog"
 
 import * as SupportFunctions from "services/general";
 import './profileHeader.css';
@@ -16,6 +17,16 @@ const ProfileHeader = (props) => {
    let wallet_address = props.wallet_address;
    const [profileData, setProfileData] = useState(null);
    const [pfpURL, setPfpURL] = useState("");
+
+   const [open, setOpen] = useState(false);
+
+   const handleClickOpen = () => {
+      setOpen(true);
+   };
+
+   const handleClose = () => {
+      setOpen(false);
+   };
 
    const clickLink = (btn) => {
       if (btn == "sol") {
@@ -34,7 +45,7 @@ const ProfileHeader = (props) => {
 
             <Twitter wallet_address={wallet_address} />
             <a className="spot-profile-header-button" href={clickLink("qr")}>
-               <QRIcon className="spot-profile-header-button-sol" wallet_id={wallet_address} />
+               <QRIcon onClick={handleClickOpen} className="spot-profile-header-button-sol" />
             </a>
             <a className="spot-profile-header-button" href={clickLink("qr")}>
                <ShareIcon className="spot-profile-header-button-sol" wallet_id={wallet_address} />
@@ -80,11 +91,17 @@ const ProfileHeader = (props) => {
             {pfpURL !== "" && <img className="spot-profile-header-img" src={pfpURL} />}
             {pfpURL == "" && <div className="spot-profile-header-img" />}
 
+
             <Domain wallet_address={wallet_address} />
-            <p className="spot-profile-header-wallet">{SupportFunctions.formatAddress(wallet_address)}</p>
+            <p onClick={() => { navigator.clipboard.writeText(wallet_address) }} className="spot-profile-header-wallet">{SupportFunctions.formatAddress(wallet_address)}</p>
             {Bio()}
          </div>
          <Links />
+         <QRCodeDialog
+            open={open}
+            onClose={handleClose}
+            wallet_address={wallet_address}
+         />
       </div>
    )
 };

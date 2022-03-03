@@ -1,0 +1,49 @@
+.spot-profile-header-img {
+   all: unset;
+   height: 130px;
+   width: 130px;
+   border-radius: 50%;
+   border-width: 8px;
+   border-color: #fdfdfd;
+   background-color: #fdfdfd;
+   border-style: solid;
+   margin-top: -80px;
+}
+
+.spot-QR-code {
+   margin: 0;
+   padding: 22px 22px 0px 22px;
+   width: 320px;
+   height: 320px;
+}
+
+.spot-QR-code-dialog {
+   background-color: rgba(255,255,255,0.9);
+   animation: fadeInDialogBkg 1s linear;
+}
+
+@keyframes fadeInDialogBkg {
+   0% { background-color: rgba(255,255,255,0); }
+   100% { background-color: rgba(255,255,255,0.9); }
+ }
+
+
+
+@media screen and (max-width: 480px) {
+   .spot-QR-code {
+      padding: 19px 19px 0px 19px;
+      width: 290px;
+      height: 290px;
+   }
+   
+}
+
+
+@media screen and (max-width: 390px) {
+   .spot-QR-code {
+      padding: 17px 17px 0px 17px;
+      width: 260px;
+      height: 260px;
+   }
+   
+}

@@ -5,17 +5,34 @@
    z-index: -5;
 }
 
-.spot-particles {
+.spot-background-svg{
    position: fixed;
+	width: 100vw;
    z-index: -10;
 }
 
 .spot-background-overlay {
    position: fixed;
-   background-color: rgba(255, 255, 255, .7);
+   backdrop-filter: blur(70px);
 	width: 100vw;
    height: 100%;
    z-index: -2;
    top: 0;
 }
 
+
+@media screen and (max-width: 800px) {
+   
+   .spot-background-svg{
+      height: 100vh;
+      width: auto;
+   }
+   
+   .spot-background-overlay {
+      position: fixed;
+      backdrop-filter: blur(70px);
+      height: 100%;
+      z-index: -2;
+      top: 0;
+   }
+}

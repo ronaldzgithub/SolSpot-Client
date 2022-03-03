@@ -1,31 +1,23 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import CreateContentList from "components/createContentList/createContentList";
-import idl from 'idl.json';
-import WelcomePopup from 'components/welcomePopup/welcomePopup';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-
-
-import BackgroundElements from 'components/spot/backgroundElements/backgroundElements';
-import * as SupportFunctions from "services/general"
-import FloatingSpeedDial from "components/speedDial/speedDial"
-
-import "./create.css"
-
-import Space_Img from "assets/login_space.png";
-
 import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
 import { Program, Provider, web3 } from '@project-serum/anchor';
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import { useWallet } from '@solana/wallet-adapter-react';
+
+import BackgroundElements from 'components/spot/backgroundElements/backgroundElements';
+import FloatingSpeedDial from "components/speedDial/speedDial"
+import WelcomePopup from 'components/welcomePopup/welcomePopup';
 import Domain from "components/domain/domain"
 import NFTShowCase from 'components/spot/nftshowcase/nftshowcase';
+import CreateContentList from "components/createContentList/createContentList";
 
-import {
-   WalletDisconnectButton,
-   WalletMultiButton
-} from '@solana/wallet-adapter-react-ui';
-import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import * as SupportFunctions from "services/general"
+import Space_Img from "assets/login_space.png";
+import PlanetSVG from "assets/planetSVG";
 
-
+import idl from 'idl.json';
+import "./create.css"
 
 let item = "https://arweave.net/WHiOxMtFT0zjA-IO2BQbKqE7Lm2bDBy20NUdH_lJ-JE";
 // SystemProgram is a reference to the Solana runtime!
@@ -42,9 +34,19 @@ const opts = {
    preflightCommitment: "processed"
 }
 
+const getItemStyle = (isDragging, draggableStyle) => ({
+   // some basic styles to make the items look a bit nicer
+   userSelect: "none",
+   borderRadius: 10,
+   // change background colour if dragging
+   background: isDragging && 'gray',
+
+   // styles we need to apply on draggables
+   ...draggableStyle
+});
+
 
 const Spot = () => {
-   let navigate = useNavigate();
 
    // profile address of the loaded profile
    const [profileAddress, setProfileAddress] = useState("");
@@ -61,8 +63,6 @@ const Spot = () => {
 
    // public key of wallet
    const { publicKey } = useWallet();
-
-
 
    const handleContentListUpdate = (arr) => {
       let obj = currentProfile;
@@ -101,6 +101,7 @@ const Spot = () => {
                }
             }
          ]);
+         console.log(profile_data)
 
          if (profile_data.length > 0 && profile_data !== []) {
             setProfileAddress(profile_data[0].publicKey);
@@ -108,7 +109,7 @@ const Spot = () => {
             let profile_item = profile_data[0].account;
             let obj = {
                "bio": profile_item.bio,
-               "color": profile_item.bio,
+               "color": profile_item.color,
                "lightTheme": profile_item.lightTheme,
                "individual": profile_item.individual,
                "linkList": []
@@ -149,7 +150,8 @@ const Spot = () => {
 
    const checkIfInit = async (passed_public_key) => {
       try {
-         let profile = await loadProfile(passed_public_key)
+         let profile = await loadProfile(passed_public_key);
+
          if (profile.length > 0 && profile !== []) {
             setHasInitialized(true);
          } else {
@@ -241,13 +243,15 @@ const Spot = () => {
          <div className="c-overall-profile-container">
             <WelcomePopup />
             <div className="c-header">
-               <WalletMultiButton />
+               <WalletMultiButton className="wallet-btn-initialize" />
             </div>
 
             <div className="c-profile-card">
 
 
-               <img className="c-profile-card-pfp" src={item} />
+
+               {nftData !== null && <img className="c-profile-card-pfp" src={nftData[0].img_url} />}
+               {nftData == null && <div className="spot-profile-header-img" />}
                <Domain />
                <p className="spot-profile-header-wallet">{SupportFunctions.formatAddress(publicKey.toString())}</p>
 
@@ -270,15 +274,20 @@ const Spot = () => {
                <FloatingSpeedDial reset_profile={resetProfileData} update_profile={updateProfileOnChain} />
             </div>
             <NFTShowCase wallet_address={publicKey} nftData={nftData} />
-            <BackgroundElements />
+            <BackgroundElements profile_data={currentProfile} />
          </div>
       )
    };
 
    const initializeContent = () => {
       return (
-         <div>
-            <button className="btn" onClick={() => initializeProfile()}>Initialize</button>
+         <div className="c-login-card">
+            <PlanetSVG className="c-card-spaceSVG" />
+            <div>
+               <h1>You have not created a SolSpot yet!</h1>
+               <p>Click create to start now!</p>
+               <button className="c-initialize-btn" onClick={() => initializeProfile()}>Create</button>
+            </div>
          </div>
       )
    }
@@ -286,11 +295,11 @@ const Spot = () => {
    const loginNeededContent = () => {
       return (
          <div className="c-login-card">
-            <img src={Space_Img} />
+            <PlanetSVG className="c-card-spaceSVG" />
             <div>
                <h1>Welcome to SolSpot</h1>
                <p>Log in with any wallet!</p>
-               <WalletMultiButton />
+               <WalletMultiButton className="c-login-card-wallet-btn" />
             </div>
          </div>
       )
@@ -309,8 +318,10 @@ const Spot = () => {
          else if (!hasInitialized && !loading) {
             return initializeContent();
          }
-
       }
+
+
+
    }
 
    // UseEffects
@@ -319,12 +330,21 @@ const Spot = () => {
          checkIfInit(publicKey);
          setNftData(await SupportFunctions.getNFTData(publicKey));
       }
+
+      if (publicKey == null) {
+         setHasInitialized(false);
+      }
    }, [publicKey]);
 
    return (
       <div className="c-main">
+         {(publicKey !== null && !hasInitialized) &&
+            <div className="c-header">
+               <WalletMultiButton className="wallet-btn-initialize" />
+            </div>
+         }
          {Content()}
-         {!hasInitialized && <BackgroundElements />}
+         {publicKey == null && <BackgroundElements profile_data={null} />}
       </div>
    )
 };

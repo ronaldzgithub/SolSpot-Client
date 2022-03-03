@@ -105,7 +105,7 @@ const Spot = () => {
 
          <NFTShowCase wallet_address={searchedPublicKey} nftData={nftData} />
          <Link to={"/"} className="spot-solspot-footer-logo">solspot</Link>
-         <BackgroundElements />
+         <BackgroundElements profile_data={profileData} />
       </div>
    )
 };

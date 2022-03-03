@@ -10,7 +10,6 @@ const Domain = (props) => {
    const wallet_address = props.wallet_address;
    let connection = new web3.Connection(web3.clusterApiUrl("mainnet-beta"));
 
-
    const findOwnedNameAccountsForUser = async (passed_wallet_address) => {
       try {
          if (passed_wallet_address == undefined) return;
@@ -24,6 +23,7 @@ const Domain = (props) => {
                },
             },
          ];
+
          const domainAccounts = await connection.getProgramAccounts(NAME_PROGRAM_ID, {
             filters,
          });
@@ -33,7 +33,6 @@ const Domain = (props) => {
          console.log("Domain Parse Error");
       }
    }
-
 
    const getDomainNames = async (passed_wallet_address) => {
       try {
@@ -53,6 +52,7 @@ const Domain = (props) => {
          }
 
          if (domainList.length > 0) {
+            console.log("Domains Found: ", domainList);
             setDomains(domainList);
             setDomainLoaded(true);
          }
@@ -62,6 +62,7 @@ const Domain = (props) => {
          }
       }
       catch (error) {
+         setDomainLoaded(false);
          console.log("Domain Fetch Error: ", error)
       }
    }
@@ -79,14 +80,14 @@ const Domain = (props) => {
             <p className="domain-name">{domains[0]}.sol</p>
          )
       }
-      if (domainLoaded == null) {
+      else if (!domainLoaded) {
          return (
-            <p className="domain-name-loading">Loading</p>
+            <p className="domain-name">no domain</p>
          )
       }
       else {
          return (
-            <p className="domain-name">no domain</p>
+            <p className="domain-name-loading">Loading</p>
          )
       }
    }

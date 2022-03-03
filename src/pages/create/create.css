@@ -16,7 +16,7 @@
    width: 100vw;
    padding-top: 10px;
    padding-right: 30px;
-   z-index: 10;
+   z-index: 15;
 }
 
 .c-overall-profile-container {
@@ -44,8 +44,6 @@
 	-moz-box-shadow: 0 5px 17px rgba(0, 0, 0, 0.2)  ; 
 }
 
-
-
 .c-profile-card .c-profile-card-pfp {
    height: 130px;
    width: 130px;
@@ -55,7 +53,6 @@
    border-style: solid;
    margin-top: -80px;
 }
-
 
 .c-profile-card .c-bio-input {
 	font-size: 18px;
@@ -83,10 +80,6 @@
    margin-bottom: 30px;
 }
 
-
-
-
-
 .inputContainer {
 	display: flex;
 	flex-direction: row;
@@ -97,7 +90,6 @@
 	background-color: white;
 	border: 1px solid black;
 }
-
 
 .c-form-submit-btn {
 	all: unset;
@@ -123,9 +115,6 @@
 	cursor: pointer;
 }
 
-
-
-
 .c-login-card {
 	border-radius: 30px;
    margin-top: 13%;
@@ -137,17 +126,65 @@
    flex-direction: row;
    align-items: center;
    justify-content: space-between;
-
+   overflow: hidden;
    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
    backdrop-filter: blur(9.3px);
    -webkit-backdrop-filter: blur(9.3px);
    border: 1px solid rgba(255, 255, 255, 0.43);
 }
 
-.c-login-card img {
-   height: 400px;
-   width: auto;
+.c-login-card div .c-login-card-wallet-btn {
+   background: rgb(129,177,250);
+   background: linear-gradient(128deg, rgba(129,177,250,1) 17%, rgba(237,174,249,1) 83%);
+   border-radius: 15px;
+   margin: 225px 0px 0px 15px;
+}
 
+.c-login-card div .c-login-card-wallet-btn:hover {
+   animation: animateBg 3s linear infinite;
+   background-image: linear-gradient(90deg,#81b1fa,#edaef9,#81b1fa,#edaef9);
+   background-size: 300% 100%;
+   transform: scale(1.05);
+   transition: all .2s ease-in-out;
+   filter: brightness(90%);
+}
+
+ @keyframes animateBg {
+   0% { background-position: 100% 0%; }
+   100% { background-position: 0% 0%; }
+ }
+
+ .c-login-card div .c-initialize-btn {
+   all: unset;
+   width: 127px;
+   height: 48px;
+   margin: 225px 0px 0px 15px;
+   text-align: center;
+   color: white;
+   background: rgb(129,177,250);
+   background: linear-gradient(128deg, rgba(129,177,250,1) 17%, rgba(237,174,249,1) 83%);
+   border-radius: 5px;
+   margin: 180px 0px 0px 15px;
+   cursor: pointer;
+}
+
+.c-login-card div .c-initialize-btn:hover {
+   animation: animateBg 3s linear infinite;
+   background-image: linear-gradient(90deg,#81b1fa,#edaef9,#81b1fa,#edaef9);
+   background-size: 300% 100%;
+   transform: scale(1.05);
+   filter: brightness(90%);
+   transition: all .2s ease-in-out;
+}
+
+.c-login-card img {
+   height: 100%;
+	border-top-left-radius: 30px;
+   border-bottom-left-radius: 30px;
+}
+
+.c-card-spaceSVG {
+   height: 800px;
 	border-top-left-radius: 30px;
    border-bottom-left-radius: 30px;
 }
@@ -164,6 +201,7 @@
    font-weight: 800;
    margin: 30px 0px 0px 15px;
 }
+
 .c-login-card p {
 	color: black;
    font-family: Quicksand;
@@ -176,4 +214,20 @@
    position: fixed;
    bottom: 10px;
    right: 10px;
+}
+
+.wallet-btn-initialize {
+   position: fixed;
+   margin: 0px;
+   top: 10px;
+   right: 0px;
+   all: unset;
+   width: 127px;
+   height: 48px;
+   text-align: center;
+   color: white;
+   background: rgb(129,177,250);
+   background: linear-gradient(128deg, rgba(129,177,250,1) 47%, rgba(237,174,249,1) 100%);
+   border-radius: 15px;
+   cursor: pointer;
 }
