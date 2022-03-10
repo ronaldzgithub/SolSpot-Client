@@ -11,15 +11,15 @@ import WelcomePopup from 'components/welcomePopup/welcomePopup';
 import Domain from "components/domain/domain"
 import NFTShowCase from 'components/spot/nftshowcase/nftshowcase';
 import CreateContentList from "components/createContentList/createContentList";
+import CreateYoutubeWidget from "components/create/youtubeWidget/youtubeWidget"
 
 import * as SupportFunctions from "services/general"
-import Space_Img from "assets/login_space.png";
 import PlanetSVG from "assets/planetSVG";
 
 import idl from 'idl.json';
 import "./create.css"
 
-let item = "https://arweave.net/WHiOxMtFT0zjA-IO2BQbKqE7Lm2bDBy20NUdH_lJ-JE";
+
 // SystemProgram is a reference to the Solana runtime!
 const { SystemProgram } = web3;
 
@@ -46,7 +46,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 });
 
 
-const Spot = () => {
+const Create = () => {
 
    // profile address of the loaded profile
    const [profileAddress, setProfileAddress] = useState("");
@@ -73,6 +73,28 @@ const Spot = () => {
    const resetProfileData = () => {
       setCurrentProfile(loadedProfile);
    }
+
+   const deleteProfileAccount = async () => {
+      try {
+         console.log("delete profile")
+         const provider = getProvider();
+         const program = new Program(idl, programID, provider);
+         const user = program.provider.wallet.publicKey;
+
+         // update the profile
+         await program.rpc.deleteProfile({
+            accounts: {
+               profile: profileAddress,
+               user,
+            },
+         });
+         setHasInitialized(false);
+         console.log("Updated the profile at the following address: ", profileAddress)
+      } catch (error) {
+         console.log("Error updating the Profile account:", error)
+      }
+   }
+
 
 
    const getProvider = () => {
@@ -112,6 +134,7 @@ const Spot = () => {
                "color": profile_item.color,
                "lightTheme": profile_item.lightTheme,
                "individual": profile_item.individual,
+               "youtubeVid": profile_item.youtubeVid,
                "linkList": []
             }
             let itemf;
@@ -206,7 +229,7 @@ const Spot = () => {
 
          // update the profile
          await program.rpc.updateProfile(currentProfile.bio, currentProfile.color,
-            currentProfile.lightTheme, currentProfile.individual, currentProfile.linkList, {
+            currentProfile.lightTheme, currentProfile.individual, currentProfile.youtubeVid, currentProfile.linkList, {
             accounts: {
                profile: profileAddress,
                user,
@@ -235,6 +258,13 @@ const Spot = () => {
       let obj = currentProfile;
       obj.color = event.target.value;
       setCurrentProfile(prevCurrentProfile => ({ ...prevCurrentProfile, color: event.target.value }));
+   };
+
+
+   const youtubeVideo = (event) => {
+      let obj = currentProfile;
+      obj.youtubeVid = event.target.value;
+      setCurrentProfile(prevCurrentProfile => ({ ...prevCurrentProfile, youtubeVid: event.target.value }));
    };
 
 
@@ -270,8 +300,9 @@ const Spot = () => {
                />
             </div>
             <CreateContentList contentList={currentProfile.linkList} handleContentListUpdate={handleContentListUpdate} />
+            <CreateYoutubeWidget profile_data={currentProfile} update_youtube={youtubeVideo} />
             <div className="c-save-btns">
-               <FloatingSpeedDial reset_profile={resetProfileData} update_profile={updateProfileOnChain} />
+               <FloatingSpeedDial reset_profile={resetProfileData} update_profile={updateProfileOnChain} delete_account={deleteProfileAccount} />
             </div>
             <NFTShowCase wallet_address={publicKey} nftData={nftData} />
             <BackgroundElements profile_data={currentProfile} />
@@ -319,9 +350,6 @@ const Spot = () => {
             return initializeContent();
          }
       }
-
-
-
    }
 
    // UseEffects
@@ -336,6 +364,7 @@ const Spot = () => {
       }
    }, [publicKey]);
 
+
    return (
       <div className="c-main">
          {(publicKey !== null && !hasInitialized) &&
@@ -349,4 +378,4 @@ const Spot = () => {
    )
 };
 
-export default Spot;
+export default Create;

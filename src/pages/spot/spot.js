@@ -41,7 +41,15 @@ const Spot = () => {
    }
 
    const formatURL = (givenURL) => {
-      let url = "https://" + givenURL;
+      if (givenURL == "") return;
+
+      let url;
+      if (givenURL.slice(0, 8) == "https://") {
+         url = givenURL;
+      }
+      else {
+         url = "https://" + givenURL;
+      }
       return url;
    }
 
@@ -82,6 +90,30 @@ const Spot = () => {
       }
    }
 
+   const renderYouTubeWidget = () => {
+
+      if (profileData == null) return;
+
+      const formatYoutubeEmbed = (url) => {
+         let embedURL = "https://www.youtube.com/embed/" + url;
+         return embedURL;
+      }
+
+      if (profileData.youtubeVid !== "") {
+         return (
+            <iframe
+               className="spot-youtube"
+               allow="fullscreen"
+               mozallowfullscreen="mozallowfullscreen"
+               msallowfullscreen="msallowfullscreen"
+               oallowfullscreen="oallowfullscreen"
+               webkitallowfullscreen="webkitallowfullscreen"
+               src={formatYoutubeEmbed(profileData.youtubeVid)}
+            />
+         )
+      }
+   }
+
    // UseEffects
    useEffect(async () => {
       loadProfile(searchedPublicKey);
@@ -93,15 +125,7 @@ const Spot = () => {
          <ProfileHeader wallet_address={searchedPublicKey} profile={profileData} nftData={nftData} />
          {renderContentList()}
 
-         <iframe
-            className="spot-youtube"
-            allow="fullscreen"
-            mozallowfullscreen="mozallowfullscreen"
-            msallowfullscreen="msallowfullscreen"
-            oallowfullscreen="oallowfullscreen"
-            webkitallowfullscreen="webkitallowfullscreen"
-            src="https://www.youtube.com/embed/gVhtB0W8sMk"
-         />
+         {renderYouTubeWidget()}
 
          <NFTShowCase wallet_address={searchedPublicKey} nftData={nftData} />
          <Link to={"/"} className="spot-solspot-footer-logo">solspot</Link>

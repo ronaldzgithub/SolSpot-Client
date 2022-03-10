@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import * as web3 from "@solana/web3.js";
 import { getHandleAndRegistryKey } from "@bonfida/spl-name-service";
 import TwitterSVG from "assets/twitterSVG.js"
-import './twitter.css'
+import styles from './twitter.module.css'
 
 
 const Twitter = (props) => {
@@ -48,15 +48,15 @@ const Twitter = (props) => {
    const RenderTwitter = () => {
       if (urlLoaded) {
          return (
-            <a href={twitterURL} target="_blank" rel="noreferrer" className="twitter-chip">
-               <TwitterSVG className="twitter-svg" />
+            <a href={twitterURL} target="_blank" rel="noreferrer" className={styles.twitterChip}>
+               <TwitterSVG className={styles.twitterSVG} />
             </a>
          )
       }
       else {
          return (
-            <div className="twitter-chip">
-               <p className="twitter-name">NA</p>
+            <div className={styles.twitterChip}>
+               <p className={styles.twitterName}>NA</p>
             </div>
          )
       }

@@ -2,7 +2,7 @@ import { ListItem } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import Particles from "react-tsparticles";
 import BackgroundSVG from "assets/backgroundSVG"
-import './backgroundElements.css'
+import styles from './backgroundElements.module.css'
 
 
 
@@ -99,7 +99,6 @@ const BackgroundElements = (props) => {
       let profile_color = props.profile_data.color;
       
       try {
-         console.log(profile_color)
          let color = profile_color;
          if (color == "") {
             color = "#afafaf"
@@ -119,16 +118,16 @@ const BackgroundElements = (props) => {
 
    if (props.profile_data !== null && hexList !== null)
       return (
-         <div className="spot-backgroundElements">
-            <BackgroundSVG colors={hexList} className="spot-background-svg" />
-            <div className="spot-background-overlay" />
+         <div className={styles.backgroundElements} >
+            <BackgroundSVG colors={hexList} className={styles.backgroundSVG} />
+            <div className={styles.overlay} />
          </div>
       )
    else {
       return (
-         <div className="spot-backgroundElements">
-            <BackgroundSVG colors={["#d7d7d7", "#afafaf", "#ffffff"]} className="spot-background-svg" />
-            <div className="spot-background-overlay" />
+         <div className={styles.backgroundElements}>
+            <BackgroundSVG colors={["#d7d7d7", "#afafaf", "#ffffff"]} className={styles.backgroundSVG} />
+            <div className={styles.overlay} />
          </div>
       )
    }

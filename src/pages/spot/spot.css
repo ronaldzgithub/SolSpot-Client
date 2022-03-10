@@ -25,9 +25,7 @@
    margin: 10px 0px;
    padding: 10px;
 	border-radius: 20px;
-   background-size: 150% 150%;
    background: rgb(255,255,255);
-   background: linear-gradient(128deg, rgba(255,255,255,0.7) 30%, rgba(255,255,255,0.3) 93%);
    z-index: 110;
    text-decoration: none;
 	box-shadow: 0 5px 17px rgba(0, 0, 0, 0.2)  ; 

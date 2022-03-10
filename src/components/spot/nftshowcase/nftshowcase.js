@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './nftshowcase.css'
+import styles from './nftshowcase.module.css'
 
 const NFTShowCase = (props) => {
    const [fullNftArr, setFullNftArr] = useState([]);
@@ -14,26 +14,26 @@ const NFTShowCase = (props) => {
    const RenderImages = () => {
       if (loaded) {
          return (
-            <div className="nft-row-loaded">
+            <div className={styles.nftRow_loaded}>
                {fullNftArr.slice(0, renderedNFTs).map((item, id) => (
-                  <a className="nft-card" key={id} href={formatURL(item.token_id)} target="_blank" rel="noopener">
-                     <img src={item.img_url} alt="nfts owned by this profile" className="spot-nft-img" />
-                     <p className="spot-nft-name">{item.name}</p>
+                  <a className={styles.nftCard} key={id} href={formatURL(item.token_id)} target="_blank" rel="noopener">
+                     <img src={item.img_url} alt="nfts owned by this profile" className={styles.nftImg} />
+                     <p className={styles.nftName}>{item.name}</p>
                   </a>
                ))}
                {!(renderedNFTs >= fullNftArr.length) &&
-                  <p onClick={() => setRenderedNFTs(renderedNFTs + 4)} className="nft-view-more">View More</p>
+                  <p onClick={() => setRenderedNFTs(renderedNFTs + 4)} className={styles.seeAllBtn}>View More</p>
                }
             </div>
          )
       }
       else if (!loaded) {
          return (
-            <div className="nft-row-loading">
-               <div className="nft-card-loading" />
-               <div className="nft-card-loading" />
-               <div className="nft-card-loading" />
-               <div className="nft-card-loading" />
+            <div className={styles.cardRow_loading}>
+               <div className={styles.loadingCard} />
+               <div className={styles.loadingCard} />
+               <div className={styles.loadingCard} />
+               <div className={styles.loadingCard} />
             </div>
          )
       }
@@ -49,10 +49,10 @@ const NFTShowCase = (props) => {
    }, [props.nftData]);
 
    return (
-      <div className="nft-show-main">
-         {fullNftArr.length > 0 && <p className="nft-title">NFTs</p>}
-         <RenderImages />
-      </div>
+      <div className={styles.nftShowcaseRoot}>
+         {fullNftArr.length > 0 && <p className={styles.nftTitle}>NFTs</p>}
+         < RenderImages />
+      </div >
    )
 };
 

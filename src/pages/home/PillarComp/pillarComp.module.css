@@ -1,0 +1,69 @@
+.solspotPillars {
+   width: 100%;
+   margin: 100px 0px;
+   padding-top: 70px;
+   padding-bottom: 40px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   background-color: #F7F7F7;
+}
+
+.solspotPillars h2 {
+   margin: 0;
+   margin-bottom: 16px;
+   text-align: center;
+   color: black;
+   font-size: 52px;
+   line-height: 1;
+   font-weight: 700;
+   font-family: Quicksand;
+}
+
+.itemContainer {
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+}
+
+.item {
+   height: auto;
+   width: 320px;
+   border-radius: 14px;
+   margin: 25px;
+   padding: 25px;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+
+.item h4 {
+   margin: 0;
+   text-align: center;
+   font-size: 32px;
+   line-height: 1;
+   font-weight: 600;
+   color: black;
+   font-family: Quicksand;
+   margin-bottom: 12px;
+}
+
+.item p {
+   text-align: center;
+   font-size: 18px;
+   line-height: 1.4;
+   font-weight: 400;
+   color: black;
+   font-family: Quicksand;
+   opacity: .9;
+}
+
+
+.icon { 
+   padding: 12px;
+   fill: white;
+   height: 30px;
+   width: 30px;
+   border-radius: 30px;
+   margin-bottom: 22px;
+}

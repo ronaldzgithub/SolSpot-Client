@@ -1,7 +1,6 @@
-import { ListItem } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import Particles from "react-tsparticles";
-import './backgroundElements.css'
+import styles from './backgroundElements.module.css'
 
 
 const BackgroundElements = (props) => {
@@ -96,10 +95,10 @@ const BackgroundElements = (props) => {
 
    if (loaded)
       return (
-         <div className="spot-backgroundElements">
+         <div className={styles.backgroundElements} >
             <Particles
                id="tsparticles-stars2"
-               className="spot-particles"
+               className={classes.particles}
                options={{
                   fpsLimit: 10,
                   fullScreen: { enable: true },
@@ -168,7 +167,7 @@ const BackgroundElements = (props) => {
       )
    else {
       return (
-         <p>hello world</p>
+         <p>mistake</p>
       )
    }
 };

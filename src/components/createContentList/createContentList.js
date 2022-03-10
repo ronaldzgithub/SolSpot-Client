@@ -3,7 +3,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import DeleteIcon from "assets/deleteIcon"
 import DragIcon from "assets/dragIcon"
-import "./createContentList.css"
+import styles from "./createContentList.module.css"
 
 
 
@@ -94,7 +94,7 @@ const CreateContentList = (props) => {
    // But in this example everything is just done in one place for simplicity
    if (items.length !== 0) {
       return (
-         <div className="content-list-root">
+         <div className={styles.contentListRoot}>
             <DragDropContext style={{ overflowX: "hidden" }} onDragEnd={onDragEnd}>
                <Droppable style={{ overflowX: "hidden" }} droppableId="droppable">
                   {(provided, snapshot) => (
@@ -102,7 +102,7 @@ const CreateContentList = (props) => {
                         {...provided.droppableProps}
                         ref={provided.innerRef}
                      >
-                        <h2 className="c-widget-title">Content List</h2>
+                        <h2 className={styles.widgetTitle}>Content List</h2>
                         {items.map((item, index) => (
                            <Draggable key={item.id} draggableId={"item=" + item.id} index={index}>
                               {(provided, snapshot) => (
@@ -110,18 +110,18 @@ const CreateContentList = (props) => {
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
-                                    className="c-content-link-item"
+                                    className={styles.linkItem}
                                     style={getItemStyle(
                                        snapshot.isDragging,
                                        provided.draggableProps.style
                                     )}
                                  >
-                                    <DragIcon className="c-drag-icon" onClick={() => deleteItem(index)} />
-                                    <div className="c-input-col">
+                                    <DragIcon className={styles.dragIcon} onClick={() => deleteItem(index)} />
+                                    <div className={styles.inputCol}>
                                        <input
                                           value={item.name}
                                           onChange={(event) => changeName(event, index)}
-                                          className="c-item-input"
+                                          className={styles.itemInput}
                                           placeholder="Name"
                                           style={{ fontWeight: 600 }}
                                        />
@@ -129,12 +129,12 @@ const CreateContentList = (props) => {
                                        <input
                                           value={item.url}
                                           onChange={(event) => changeURL(event, index)}
-                                          className="c-item-input"
+                                          className={styles.itemInput}
                                           placeholder="URL"
                                        />
                                     </div>
 
-                                    <DeleteIcon className="c-delete-icon" onClick={() => deleteItem(index)} style={{ cursor: 'pointer' }} />
+                                    <DeleteIcon className={styles.deleteIcon} onClick={() => deleteItem(index)} style={{ cursor: 'pointer' }} />
                                  </div>
                               )}
                            </Draggable>
@@ -144,12 +144,15 @@ const CreateContentList = (props) => {
                   )}
                </Droppable>
             </DragDropContext>
-            <button onClick={() => simpleAddContent()} className="c-content-add-link-btn">Add New Item</button>
+            <button onClick={() => simpleAddContent()} className={styles.addLinkBtn}>Add New Item</button>
          </div>
       );
    } else {
       return (
-         <button onClick={() => simpleAddContent()} className="c-content-add-item-btn">Add New Item</button>
+         <div className={styles.contentListRoot}>
+            <h2 className={styles.widgetTitle}>Content List</h2>
+            <button onClick={() => simpleAddContent()} className={styles.addLinkBtn}>Add New Item</button>
+         </div>
       );
    }
 }

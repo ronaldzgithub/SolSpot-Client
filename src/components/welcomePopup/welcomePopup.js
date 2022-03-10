@@ -1,10 +1,10 @@
 import React from 'react';
-import './welcomePopup.css'
+import styles from './welcomePopup.module.css'
 
 const WelcomePopup = () => {
 
    return (
-      <div className="welcome-popup">
+      <div className={styles.welcome_popup}>
          <h2>Hello.</h2>
       </div>
    )

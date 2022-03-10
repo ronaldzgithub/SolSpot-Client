@@ -9,7 +9,7 @@ import ShareIcon from "assets/shareIcon";
 import QRCodeDialog from "components/spot/qrCodeDialog/qrCodeDialog"
 
 import * as SupportFunctions from "services/general";
-import './profileHeader.css';
+import styles from './profileHeader.module.css';
 
 
 const ProfileHeader = (props) => {
@@ -38,19 +38,19 @@ const ProfileHeader = (props) => {
 
    const Links = () => {
       return (
-         <div className="spot-profile-header-link-list">
-            <a className="spot-profile-header-button" href={clickLink("sol")}>
-               <SolanaLogo className="spot-profile-header-button-sol" />
+         <div className={styles.linksList} >
+            <a className={styles.linkListButton} href={clickLink("sol")}>
+               <SolanaLogo className={styles.linkListButtonIcon} />
             </a>
 
             <Twitter wallet_address={wallet_address} />
-            <a className="spot-profile-header-button" href={clickLink("qr")}>
-               <QRIcon onClick={handleClickOpen} className="spot-profile-header-button-sol" />
+            <a className={styles.linkListButton} href={clickLink("qr")}>
+               <QRIcon onClick={handleClickOpen} className={styles.linkListButtonIcon} />
             </a>
-            <a className="spot-profile-header-button" href={clickLink("qr")}>
-               <ShareIcon className="spot-profile-header-button-sol" wallet_id={wallet_address} />
-            </a>
-         </div>
+            <a className={styles.linkListButton} href={clickLink("qr")}>
+               < ShareIcon className={styles.linkListButtonIcon} wallet_id={wallet_address} />
+            </a >
+         </div >
       )
    }
 
@@ -73,9 +73,9 @@ const ProfileHeader = (props) => {
    const Bio = () => {
       if (profileData !== null) {
          return (
-            <p className="spot-profile-header-bio">
+            <p className={styles.bio}>
                {profileData.bio}
-            </p>
+            </p >
          )
       }
       else {
@@ -86,14 +86,14 @@ const ProfileHeader = (props) => {
    }
 
    return (
-      <div className="spot-profile-header">
-         <div className="spot-profile-header-upper-container">
-            {pfpURL !== "" && <img className="spot-profile-header-img" src={pfpURL} />}
-            {pfpURL == "" && <div className="spot-profile-header-img" />}
+      <div className={styles.profileHeaderRoot}>
+         <div className={styles.profileHeaderUpperContainer}>
+            {pfpURL !== "" && <img className={styles.pfpImage} src={pfpURL} />}
+            {pfpURL == "" && <div className={styles.pfpImage} />}
 
 
             <Domain wallet_address={wallet_address} />
-            <p onClick={() => { navigator.clipboard.writeText(wallet_address) }} className="spot-profile-header-wallet">{SupportFunctions.formatAddress(wallet_address)}</p>
+            <p onClick={() => { navigator.clipboard.writeText(wallet_address) }} className={styles.shortenedAddress} >{SupportFunctions.formatAddress(wallet_address)}</p>
             {Bio()}
          </div>
          <Links />
@@ -102,7 +102,7 @@ const ProfileHeader = (props) => {
             onClose={handleClose}
             wallet_address={wallet_address}
          />
-      </div>
+      </div >
    )
 };
 

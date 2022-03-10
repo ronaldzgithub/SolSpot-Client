@@ -1,13 +1,12 @@
 import React from 'react';
-import './logo.css'
-
 import { Link } from 'react-router-dom';
+import styles from './logo.module.css'
 
 const Logo = () => {
 
-  return (
-        <Link className="logo" to={`/`}>SolSpot</Link>
-  )
+   return (
+      <Link className={styles.logo} to={`/`}>SolSpot</Link>
+   )
 };
 
 export default Logo;

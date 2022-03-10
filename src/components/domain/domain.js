@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import * as web3 from "@solana/web3.js";
 import { NAME_PROGRAM_ID, performReverseLookup } from "@bonfida/spl-name-service";
-import './domain.css'
+import styles from './domain.module.css'
 
 
 const Domain = (props) => {
@@ -77,17 +77,17 @@ const Domain = (props) => {
    const RenderDomains = () => {
       if (domainLoaded) {
          return (
-            <p className="domain-name">{domains[0]}.sol</p>
+            <p className={styles.domainName}>{domains[0]}.sol</p>
          )
       }
       else if (!domainLoaded) {
          return (
-            <p className="domain-name">no domain</p>
+            <p className={styles.domainName}>no domain</p>
          )
       }
       else {
          return (
-            <p className="domain-name-loading">Loading</p>
+            <p className={styles.domainName}>Loading</p>
          )
       }
    }

@@ -1,0 +1,91 @@
+.contentListRoot {
+   margin: 0;
+   padding: 0;
+   width: 500px;
+}
+
+.widgetTitle {
+	font-size: 28px;
+   font-family: Quicksand;
+   font-weight: 700;
+   line-height: 1;
+   margin: 15px 0px;
+   color: white;
+}
+
+.linkItem {
+   height: auto;
+	width: 480px;
+	margin: 10px 0px;
+	padding: 10px;
+	border-radius: 20px;
+	background-color: white;
+   z-index: 10;
+   text-decoration: none;
+	box-shadow: 0 5px 17px rgba(0, 0, 0, 0.2)  ; 
+	-webkit-box-shadow: 0 5px 17px rgba(0, 0, 0, 0.2)  ; 
+	-moz-box-shadow: 0 5px 17px rgba(0, 0, 0, 0.2)  ; 
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   margin-bottom: 16px;
+}
+
+.itemInput {
+	font-size: 18px;
+   font-family: Quicksand;
+   font-weight: 400;
+   border: 1px solid rgba(0, 0, 0, 0.1);
+   width: 100%;
+   margin: 4px 0px;
+   padding: 3px;
+   border-radius: 5px;
+   overflow-wrap: anywhere;
+   cursor: text;
+}
+
+.inputCol {
+   width: 360px;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+}
+
+.dragIcon {
+   cursor: grab;
+   width: 40px;
+   margin-right: 6px;
+   margin-right: 10px;
+}
+
+.deleteIcon {
+   cursor: pointer;
+   width: 25px;
+   margin-left: 26px;
+   height: 25px;
+   padding: 6px;
+}
+
+.deleteIcon:hover {
+   background-color: purple;
+   border-radius: 50px;
+}
+
+.addLinkBtn {
+	all: unset;
+   font-family: Quicksand;
+   font-weight: 700;
+	font-size: 22px;
+	text-align: center;
+	cursor: pointer;
+	width: 480px;
+	margin: 10px 0px;
+	padding: 10px;
+	border-radius: 10px;
+	background-color: rgba(0, 0, 0, 0.1);
+   color: white;
+   text-decoration: none;
+	box-shadow: 0 5px 17px rgba(0, 0, 0, 0.2)  ; 
+	-webkit-box-shadow: 0 5px 17px rgba(0, 0, 0, 0.2)  ; 
+	-moz-box-shadow: 0 5px 17px rgba(0, 0, 0, 0.2)  ; 
+}

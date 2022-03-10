@@ -6,16 +6,12 @@ import SpeedDialAction from '@mui/material/SpeedDialAction';
 
 import SaveIcon from "assets/saveIcon"
 import ResetIcon from "assets/resetIcon"
-
-
-import DeleteIcon from "assets/deleteIcon"
-
-import './speedDial.css'
-
+import TrashDeleteIcon from "assets/trashDeleteIcon"
 
 const actions = [
    { icon: <SaveIcon />, name: 'SAVE' },
-   { icon: <ResetIcon />, name: 'RESET' },
+   { icon: <ResetIcon />, name: 'UNDO EDITS' },
+   { icon: <TrashDeleteIcon />, name: 'DELETE ACCOUNT' },
 ];
 
 const FloatingSpeedDial = (props) => {
@@ -26,6 +22,9 @@ const FloatingSpeedDial = (props) => {
       }
       if (name == "RESET") {
          props.reset_profile();
+      }
+      if (name == "DELETE ACCOUNT") {
+         props.delete_account();
       }
    }
 

@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
-
 import { Link, useNavigate } from 'react-router-dom';
 
-import Header from "../../components/header/header.js"
-import SolSpotLogo from "assets/solspot_logo"
-import "./home.css"
 import SearchIcon from "../../assets/search"
+import SolSpotLogo from "assets/solspot_logo"
+import heroImage from "assets/bkg_space.png"
+import Footer from "./Footer/Footer"
+
+
+import PillarsComp from "./PillarComp/pillarComp"
+import IntroBlock from "./IntroBlock/introBlock"
+import DescriptionComp from "./Description/descriptionComp"
+import styles from "./home.module.css"
 
 const Home = () => {
    let navigate = useNavigate();
@@ -28,22 +33,19 @@ const Home = () => {
    const SearchBtn = () => {
       if (valid) {
          return (
-            <Link className="go-search-btn" to={`/${account}`}>Search</Link>
+            <Link className={styles.goSearchBtn} to={`/${account}`}>
+               <SearchIcon className={styles.searchIcon} />
+            </Link>
          )
       } else {
          return (
-            <Link className="no-search-btn" to={'/'} >Search</Link >
+            <Link className={styles.noSearchBtn} to={'/'} >
+               <SearchIcon className={styles.searchIcon} />
+            </Link >
          )
 
       }
    };
-
-   const HighlightItem = () => {
-      return (
-         <div className="highlight-item"></div>
-      )
-   };
-
 
 
    useEffect(() => {
@@ -55,54 +57,44 @@ const Home = () => {
    }, [account]);
 
    return (
-      <div className="home-main">
-         <div className="home-upper-container">
-            <div className="hero-content">
-               <SolSpotLogo className="solspot-logo" />
-               <h1>create your digital identity</h1>
-               <h4>Your forever you,</h4>
-               <h4>stored on the Solana blockchain.</h4>
-               <h4 style={{ marginBottom: 30 }}>Share your story and increase your clout.</h4>
-               <Link className="home-create-btn" to={`/create`}>create now</Link>
-            </div>
-            <div className="gradient-container">
-               <div className="menu-row">
+      <div className={styles.root}>
 
-                  <Link className="menu-item" to={`/create`}>profile</Link>
-                  <Link className="menu-item" to={`/`}>about</Link>
-                  <div className="search-container">
-                     <form onSubmit={handleSubmit}>
-                        <div className="input-container">
-                           <SearchIcon className="searchIcon" />
-                           <input
-                              value={account}
-                              onChange={changeSearch}
-                              className="input"
-                              placeholder="Enter Solana Account"
-                           />
-                           <SearchBtn type="submit" value="Submit" />
-                        </div>
-                     </form>
+
+         <img src={heroImage} className={styles.heroImage} />
+         <div className={styles.heroContent}>
+            <div style={{ width: '100%' }}>
+               <div className={styles.header}>
+                  <SolSpotLogo className={styles.solspotLogo} />
+                  <div className={styles.menuRow}>
+                     <a href="https://solspot.gitbook.io/solspot/" target="_blank" className={styles.menuItem}>Whitepaper</a>
+                     <Link className={styles.menuItemManage} to={`/create`}>Manage Profile</Link>
                   </div>
                </div>
-               <div className="hero-img">
-                  "put the img here"
-               </div>
+
+               <h1>create your digital identity</h1>
+               <h4>Your forever you, stored directly on Solana.</h4>
+               <h4>Personalize your spot in the Solanaverse.</h4>
+
+            </div>
+
+            <div className={styles.searchContainer}>
+               <form style={{ width: '100%' }} onSubmit={handleSubmit}>
+                  <div className={styles.searchInputContainer}>
+                     <input
+                        value={account}
+                        onChange={changeSearch}
+                        className={styles.input}
+                        placeholder="Search by user address or domain name"
+                     />
+                     <SearchBtn type="submit" value="Submit" />
+                  </div>
+               </form>
             </div>
          </div>
-         <div className="community-highlights-outer">
-            <h2 className="comm-highlights-tag">community highlights</h2>
-            <div className="community-highlights">
-               <HighlightItem />
-               <HighlightItem />
-               <HighlightItem />
-            </div>
-            <div className="community-highlights">
-               <HighlightItem />
-               <HighlightItem />
-               <HighlightItem />
-            </div>
-         </div>
+         <IntroBlock />
+         <PillarsComp />
+         <DescriptionComp />
+         <Footer />
       </div>
    )
 };

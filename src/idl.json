@@ -55,6 +55,10 @@
                "type": "bool"
             },
             {
+               "name": "youtubeVid",
+               "type": "string"
+            },
+            {
                "name": "content",
                "type": {
                   "vec": {
@@ -114,6 +118,10 @@
                         "defined": "ContentStruct"
                      }
                   }
+               },
+               {
+                  "name": "youtubeVid",
+                  "type": "string"
                }
             ]
          }
