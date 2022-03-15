@@ -2,14 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import SearchIcon from "../../assets/search"
-import SolSpotLogo from "assets/solspot_logo"
-import heroImage from "assets/bkg_space.png"
+import SolSpotLogoFull from "assets/solspot_logo"
+import SolSpotLogoIcon from "assets/solspot_logo_icon"
 import Footer from "./Footer/Footer"
 
 
 import PillarsComp from "./PillarComp/pillarComp"
 import IntroBlock from "./IntroBlock/introBlock"
 import DescriptionComp from "./Description/descriptionComp"
+import ClayMockupSingle from "assets/images/clayMockupSingle.png"
+import LeftSemiCircleSVGWhite from 'assets/svgs/leftSemiCircleSVG-WHITE';
+import RightSemiCircleSVGWhite from 'assets/svgs/rightSemiCircleSVG-WHITE';
 import styles from "./home.module.css"
 
 const Home = () => {
@@ -59,15 +62,29 @@ const Home = () => {
    return (
       <div className={styles.root}>
 
-
-         <img src={heroImage} className={styles.heroImage} />
          <div className={styles.heroContent}>
-            <div style={{ width: '100%' }}>
+            <div className={styles.heroBox}>
                <div className={styles.header}>
-                  <SolSpotLogo className={styles.solspotLogo} />
+                  <SolSpotLogoFull className={styles.solspotLogoLg} />
+                  <SolSpotLogoIcon className={styles.solspotLogoIcon} />
                   <div className={styles.menuRow}>
+                     <div className={styles.searchContainer}>
+                        <form className={styles.searchInputContainer} onSubmit={handleSubmit}>
+
+                           <input
+                              value={account}
+                              onChange={changeSearch}
+                              className={styles.input}
+                              placeholder="Search by user address or domain name"
+                           />
+                           <SearchBtn type="submit" value="Submit" />
+
+                        </form>
+                     </div>
+
                      <a href="https://solspot.gitbook.io/solspot/" target="_blank" className={styles.menuItem}>Whitepaper</a>
                      <Link className={styles.menuItemManage} to={`/create`}>Manage Profile</Link>
+
                   </div>
                </div>
 
@@ -75,26 +92,22 @@ const Home = () => {
                <h4>Your forever you, stored directly on Solana.</h4>
                <h4>Personalize your spot in the Solanaverse.</h4>
 
+               <div className={styles.imgContainer}>
+                  <img src={ClayMockupSingle} className={styles.singleClayMockup} />
+               </div>
+
             </div>
 
-            <div className={styles.searchContainer}>
-               <form style={{ width: '100%' }} onSubmit={handleSubmit}>
-                  <div className={styles.searchInputContainer}>
-                     <input
-                        value={account}
-                        onChange={changeSearch}
-                        className={styles.input}
-                        placeholder="Search by user address or domain name"
-                     />
-                     <SearchBtn type="submit" value="Submit" />
-                  </div>
-               </form>
-            </div>
+            <LeftSemiCircleSVGWhite className={styles.leftSemiCircleSVG} />
+            <RightSemiCircleSVGWhite className={styles.rightSemiCircleSVG} />
+
          </div>
+
          <IntroBlock />
          <PillarsComp />
          <DescriptionComp />
          <Footer />
+
       </div>
    )
 };

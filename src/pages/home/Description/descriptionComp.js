@@ -1,16 +1,14 @@
 import React from 'react';
 
-import BrushIcon from "assets/brushIcon"
-import RobotIcon from "assets/robotIcon"
-import MegaphoneIcon from 'assets/megaphoneIcon';
-import ClayMockupSingle from "assets/clayMockupSingle.png"
-
+import ClayMockupSingle from "assets/images/clayMockupSingle.png"
+import CircleGradientSVG from 'assets/svgs/circleGradient';
 import styles from "./descriptionComp.module.css"
 
 const DescriptionComp = () => {
    return (
 
       <div className={styles.root}>
+         <CircleGradientSVG className={styles.leftCircleSVG} />
          <div className={styles.content}>
             <h2>Your digital identity all in one place</h2>
             <p>

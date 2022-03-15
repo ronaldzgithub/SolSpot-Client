@@ -1,17 +1,20 @@
 import React from 'react';
 
-import BrushIcon from "assets/brushIcon"
-import RobotIcon from "assets/robotIcon"
-import MegaphoneIcon from 'assets/megaphoneIcon';
-import tripleMockup from "assets/tripleMockup.png"
-
+import tripleMockup from "assets/images/tripleMockup.png"
 import styles from "./introBlock.module.css"
+import LeftSemiCircleSVG from 'assets/svgs/leftSemiCircleSVG';
+import RightSemiCircleSVG from 'assets/svgs/rightSemiCircleSVG';
+import CircleGradientSVG from 'assets/svgs/circleGradient';
 
 const IntroBlock = () => {
    return (
 
       <div className={styles.root}>
          <img src={tripleMockup} className={styles.tripleMockup} />
+         <CircleGradientSVG className={styles.leftCircleSVG} />
+         <CircleGradientSVG className={styles.rightCircleSVG} />
+         <LeftSemiCircleSVG className={styles.leftSemiCircleSVG} />
+         <RightSemiCircleSVG className={styles.rightSemiCircleSVG} />
          <div className={styles.content}>
             <h2>Your digital identity all in one place</h2>
             <p>

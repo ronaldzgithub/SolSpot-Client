@@ -17,47 +17,49 @@
 .solspotLogo {
    width: 320px;
    margin: 20px;
-   fill: black;
 }
 
 .heroContent {
-   height: 100%;
    width: 100%;
-   height: 100vh;
+   height: 85vh;
+   margin-bottom: 15vh;
    z-index: 102;
    background: rgb(129,177,250);
    background: linear-gradient(23deg, rgba(206,226,255,0.95) 15%, rgba(249, 216, 255, 0.95) 100%);
    display: flex;
    flex-direction: column;
 	align-items: center;
+   border-bottom-left-radius: 60px;
+   border-bottom-right-radius: 60px;
+   box-shadow: -1px 6px 32px 2px rgba(0,0,0,0.2);
+   -webkit-box-shadow: -1px 6px 32px 2px rgba(0,0,0,0.2);
+   -moz-box-shadow: -1px 6px 32px 2px rgba(0,0,0,0.2);
 }
 
-.heroImage {
-   position: absolute;
+.heroBox {
    width: 100%;
-   height: 100vh;
 }
 
 .heroContent h1 {
-   font-size: 96px;
+   font-size: 72px;
    line-height: 1;
-   font-weight: 900;
+   font-weight: 600;
    font-family: Quicksand;
    color: black;
    width: 100%;
    text-align: center;
-   margin-top: 13%;
+   margin-top: 5%;
    margin-bottom: 30px;
 }
 
 .heroContent h4 {
    margin: 0;
    padding: 0;
-   font-size: 38px;
+   font-size: 28px;
    font-weight: 500;
    font-family: Quicksand;
    color: black;
-   opacity: .7;
+   opacity: .8;
    width: 100%;
    text-align: center;
 }
@@ -112,23 +114,22 @@
 
 
 .searchContainer {
-	height: 70px;
-	width: 80%;
-   max-width: 650px;
-   border-radius: 35px;
+   margin: 0;
+   width: auto;
 	display: flex;
-	flex-direction: row; 
-   background-color: rgba(0,0,0,.4);
-   border: 2px white solid;
-   margin-top: 30px;
-   margin-bottom: 50px;
+	flex-direction: column;
+	align-items: center; 
+   margin-top: 18px;
+   margin-right: 16px;
 }
 
 .searchInputContainer {
 	display: flex;
 	flex-direction: row;
-	height: 70px;
-	width: 100%;
+	height: 56px;
+	width: 650px;
+   background-color: rgba(255,255,255,.6);
+   border-radius: 35px;
 	margin: 0px 0px;
 }
 
@@ -146,7 +147,7 @@
 	font-size: 18px;
 	font-weight: 500;
 	width: 100%;
-   color: white;
+   color: black;
    font-family: Quicksand;
 }
 
@@ -154,7 +155,7 @@
 	font-size: 18px;
 	font-weight: 500;
 	width: 100%;
-   color: white;
+   color: black;
    opacity: .8;
    font-family: Quicksand;
 }
@@ -183,9 +184,241 @@
 .noSearchBtn {
 	background-color: rgba(0,0,0,.4);
 	border-radius: 35px;
-   height: 40px;
-   padding: 8px 12px 10px 6px;
+   height: 32px;
+   padding: 4px 4px 8px 0px;
    margin-top: 6px;
    margin-right: 6px;
 	cursor: default;
+}
+
+.imgContainer {
+   margin: 0;
+   padding: 0;
+   width: 100%;
+   height: auto;
+   margin-top: 30px;
+	display: flex;
+	flex-direction: column;
+	align-items: center; 
+}
+
+.singleClayMockup {
+   margin: 0;
+   padding: 0;
+   width: 470px;
+}
+
+.leftSemiCircleSVG {
+   position: absolute;
+   z-index: 5;
+   left: 0;
+   bottom: 23vh;
+   width: 140px;
+   opacity: .7;
+}
+
+.rightSemiCircleSVG {
+   position: absolute;
+   z-index: 5;
+   right: 0;
+   top: 90px;
+   width: 120px;
+   opacity: .7;
+}
+
+.solspotLogoIcon {
+   display: none;
+}
+
+
+@media screen and (max-width: 480px) {
+   .root {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+   }
+   
+   
+   .header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+   }
+   
+   .solspotLogoLg {
+      display: none;
+   }
+   
+   .solspotLogoIcon {
+      display: flex;
+      width: 100px;
+      margin: 15px;
+   }
+
+   .heroContent {
+      width: 100%;
+      height: 92vh;
+      margin-bottom: 15vh;
+      z-index: 102;
+      background: rgb(129,177,250);
+      background: linear-gradient(23deg, rgba(206,226,255,0.95) 15%, rgba(249, 216, 255, 0.95) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-bottom-left-radius: 50px;
+      border-bottom-right-radius: 50px;
+      box-shadow: -1px 6px 32px 2px rgba(0,0,0,0.2);
+      -webkit-box-shadow: -1px 6px 32px 2px rgba(0,0,0,0.2);
+      -moz-box-shadow: -1px 6px 32px 2px rgba(0,0,0,0.2);
+   }
+
+   .heroBox {
+      display: flex;
+      flex-direction: column;
+      align-items: center; 
+   }
+   
+   .heroContent h1 {
+      font-size: 38px;
+      line-height: 1;
+      font-weight: 600;
+      font-family: Quicksand;
+      color: black;
+      width: 100%;
+      text-align: center;
+      margin-top: 90px;
+      margin-bottom: 30px;
+      z-index: 10;
+   }
+   
+   .heroContent h4 {
+      margin: 0;
+      padding: 0;
+      font-size: 18px;
+      font-weight: 500;
+      font-family: Quicksand;
+      color: black;
+      opacity: .8;
+      width: 100%;
+      text-align: center;
+      z-index: 10;
+   }
+   
+   .menuRow {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      width: 100%;
+   }
+   
+   .menuItem {
+      margin-top: 15px;
+      margin-right: 15px;
+   }
+   
+   .menuItemManage {
+      display: none;
+   }
+   
+   .searchContainer {
+      display: none;
+   }
+   
+   .searchInputContainer {
+      display: flex;
+      flex-direction: row;
+      height: 56px;
+      width: 650px;
+      background-color: rgba(255,255,255,.6);
+      border-radius: 35px;
+      margin: 0px 0px;
+   }
+   
+   .searchIcon {
+      width: 30px;
+      height: 30px;
+      margin-top: 6px;
+      margin-left: 10px;
+   }
+   
+   .input {
+      all: unset;
+      padding: 6px;
+      padding-left: 24px;
+      font-size: 18px;
+      font-weight: 500;
+      width: 100%;
+      color: black;
+      font-family: Quicksand;
+   }
+   
+   .input::placeholder {
+      font-size: 18px;
+      font-weight: 500;
+      width: 100%;
+      color: black;
+      opacity: .8;
+      font-family: Quicksand;
+   }
+   
+   .goSearchBtn {
+      background: rgb(129,177,250);
+      background: linear-gradient(128deg, rgba(129,177,250,1) 17%, rgba(237,174,249,1) 83%);
+      border-radius: 35px;
+      height: 40px;
+      padding: 8px 12px 10px 6px;
+      margin-top: 6px;
+      margin-right: 6px;
+      cursor: pointer;
+   }
+   
+   .goSearchBtn:hover {
+      animation: animateBg 3s linear infinite;
+      background-image: linear-gradient(90deg,#81b1fa,#edaef9,#81b1fa,#edaef9);
+      background-size: 300% 100%;
+      transform: scale(1.02);
+      transition: all .2s ease-in-out;
+      filter: brightness(110%);
+   }
+   
+   .noSearchBtn {
+      background-color: rgba(0,0,0,.4);
+      border-radius: 35px;
+      height: 32px;
+      padding: 4px 4px 8px 0px;
+      margin-top: 6px;
+      margin-right: 6px;
+      cursor: default;
+   }
+   
+   .imgContainer {
+      margin: 0;
+      padding: 0;
+      width: 80vw;
+      height: auto;
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center; 
+   }
+   
+   .singleClayMockup {
+      margin: 0;
+      padding: 0;
+      width: 400px;
+   }
+   
+   .leftSemiCircleSVG {
+      bottom: 16vh;
+      width: 92px;
+   }
+   
+   .rightSemiCircleSVG {
+      top: 80px;
+      width: 70px;
+   }
+
 }

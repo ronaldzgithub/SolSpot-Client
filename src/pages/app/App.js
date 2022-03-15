@@ -60,6 +60,7 @@ const App = () => {
                      <Route path='/' element={<Home />} />
                      <Route path='/create' element={<Create />} />
                      <Route path='/:searchedPublicKey' element={<Spot />} />
+                     <Route path="*" element={<Home />} />
                   </Routes>
                </Router>
             </WalletModalProvider>

@@ -3,12 +3,13 @@ import React from 'react';
 import BrushIcon from "assets/brushIcon"
 import RobotIcon from "assets/robotIcon"
 import MegaphoneIcon from 'assets/megaphoneIcon';
+import RightSemiCircleSVG from 'assets/svgs/rightSemiCircleSVG';
 import styles from "./pillarComp.module.css"
 
 const PillarsComp = () => {
    return (
-
       <div className={styles.solspotPillars}>
+         <RightSemiCircleSVG className={styles.rightSemiCircleSVG} />
          <h2>Solspot is all about you</h2>
          <div className={styles.itemContainer}>
             <div className={styles.item}>

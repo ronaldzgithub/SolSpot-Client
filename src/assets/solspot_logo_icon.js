@@ -1,10 +1,10 @@
 import * as React from "react"
 
-const SolSpotLogoFull = (props) => (
+const SolSpotLogoIcon = (props) => (
    <svg
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      viewBox="0 0 1865.28 462.73"
+      viewBox="0 0 750 462.73"
       {...props}
    >
       <defs>
@@ -15,14 +15,6 @@ const SolSpotLogoFull = (props) => (
          </style>
       </defs>
       <g id="fitted_logo_for_website" data-name="fitted logo for website">
-         <text
-            id="SOLSPOT_Type"
-            data-name="SOLSPOT Type"
-            className="cls-text"
-            transform="translate(767.89 315.82)"
-         >
-            {"solspot"}
-         </text>
          <path
             className="cls-2"
             d="M330.43,400.7c.6-.77,1.23-1.52,1.89-2.26C331.73,399.22,331.1,400,330.43,400.7Z"
@@ -42,4 +34,4 @@ const SolSpotLogoFull = (props) => (
    </svg>
 )
 
-export default SolSpotLogoFull;
+export default SolSpotLogoIcon;
