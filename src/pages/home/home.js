@@ -10,7 +10,7 @@ import Footer from "./Footer/Footer"
 import PillarsComp from "./PillarComp/pillarComp"
 import IntroBlock from "./IntroBlock/introBlock"
 import DescriptionComp from "./Description/descriptionComp"
-import ClayMockupSingle from "assets/images/clayMockupSingle.png"
+import ClayMockupSingle from "assets/images/mobile-mockup-solspot-CLAY.png"
 import LeftSemiCircleSVGWhite from 'assets/svgs/leftSemiCircleSVG-WHITE';
 import RightSemiCircleSVGWhite from 'assets/svgs/rightSemiCircleSVG-WHITE';
 import styles from "./home.module.css"
@@ -50,7 +50,6 @@ const Home = () => {
       }
    };
 
-
    useEffect(() => {
       if (account.length === 44) {
          setValid(true);
@@ -88,9 +87,9 @@ const Home = () => {
                   </div>
                </div>
 
+
                <h1>create your digital identity</h1>
-               <h4>Your forever you, stored directly on Solana.</h4>
-               <h4>Personalize your spot in the Solanaverse.</h4>
+               <h4>Your forever you, stored directly on Solana. Personalize your spot in the Solanaverse.</h4>
 
                <div className={styles.imgContainer}>
                   <img src={ClayMockupSingle} className={styles.singleClayMockup} />
@@ -102,7 +101,6 @@ const Home = () => {
             <RightSemiCircleSVGWhite className={styles.rightSemiCircleSVG} />
 
          </div>
-
          <IntroBlock />
          <PillarsComp />
          <DescriptionComp />

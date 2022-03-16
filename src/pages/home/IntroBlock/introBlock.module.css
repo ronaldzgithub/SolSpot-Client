@@ -48,7 +48,7 @@
 
 .content p {
    text-align: left;
-   font-size: 18px;
+   font-size: 22px;
    line-height: 1.4;
    font-weight: 400;
    color: black;
@@ -107,6 +107,7 @@
       height: 210px;
       padding: 40px;
       border-radius: 30px;
+      margin-bottom: 12px;
    }
    
    .content {

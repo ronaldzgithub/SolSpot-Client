@@ -19,10 +19,11 @@ const IntroBlock = () => {
             <h2>Your digital identity all in one place</h2>
             <p>
                Solspot is a social platform rooted in the Solana metaverse.
-               By simply having a Solana address, you have a Solspot profile.
-               Without even having to create an account, Solspot automatically
-               creates a snapshot showing your activity on the blockchain.
-
+               Solspot profiles are quick snapshots of who you are. A profile
+               is automatically generated based on your Solana activity.
+               Your profile is fully customizeable, making each one of a kind.
+               All the data submitted by a user is stored directly on the
+               Solana blockchain, truely making Solspot a decentralized application.
             </p>
          </div>
       </div>

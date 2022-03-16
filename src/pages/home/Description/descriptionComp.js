@@ -10,18 +10,17 @@ const DescriptionComp = () => {
       <div className={styles.root}>
          <CircleGradientSVG className={styles.leftCircleSVG} />
          <div className={styles.content}>
-            <h2>Your digital identity all in one place</h2>
+            <h2>Solspot is all about YOU</h2>
             <p>
-               Solspot is a social platform rooted in the Solana metaverse.
-               By simply having a Solana address, you have a Solspot profile.
-               Without even having to create an account, Solspot automatically
-               creates a snapshot showing your activity on the blockchain.
-
+               A Solspot profile is composed of widgets chosen by
+               the profile owner. Each widget has a different purpose, enabling
+               unique profiles to be created that illustrate the uniqueness of
+               every individual in the Solana metaverse.
             </p>
+            <a href="https://solspot.gitbook.io/solspot/" target="_blank" className={styles.learnMoreBtn}>Learn More</a>
          </div>
          <div className={styles.imgContainer}>
             <img src={ClayMockupSingle} className={styles.singleClayMockup} />
-
          </div>
       </div>
    )
