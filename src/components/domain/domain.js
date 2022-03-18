@@ -6,9 +6,9 @@ import styles from './domain.module.css'
 
 const Domain = (props) => {
    const [domains, setDomains] = useState([]);
-   const [domainLoaded, setDomainLoaded] = useState(null);
+   const [domainLoaded, setDomainLoaded] = useState(false);
    const wallet_address = props.wallet_address;
-   let connection = new web3.Connection(web3.clusterApiUrl("mainnet-beta"));
+   let connection = new web3.Connection("https://ssc-dao.genesysgo.net/", "confirmed");
 
    const findOwnedNameAccountsForUser = async (passed_wallet_address) => {
       try {
@@ -58,11 +58,11 @@ const Domain = (props) => {
          }
          else {
 
-            setDomainLoaded(false);
+            setDomainLoaded(null);
          }
       }
       catch (error) {
-         setDomainLoaded(false);
+         setDomainLoaded(null);
          console.log("Domain Fetch Error: ", error)
       }
    }
@@ -80,9 +80,9 @@ const Domain = (props) => {
             <p className={styles.domainName}>{domains[0]}.sol</p>
          )
       }
-      else if (!domainLoaded) {
+      else if (domainLoaded == null) {
          return (
-            <p className={styles.domainName}>no domain</p>
+            <></>
          )
       }
       else {

@@ -7,6 +7,9 @@ import SolanaLogo from "assets/solanaLogo";
 import QRIcon from "assets/qrIcon";
 import ShareIcon from "assets/shareIcon";
 import QRCodeDialog from "components/spot/qrCodeDialog/qrCodeDialog"
+import DefaultAccountIcon from "assets/svgs/defaultAccountIcon"
+
+import Snackbar from '@mui/material/Snackbar';
 
 import * as SupportFunctions from "services/general";
 import styles from './profileHeader.module.css';
@@ -18,14 +21,23 @@ const ProfileHeader = (props) => {
    const [profileData, setProfileData] = useState(null);
    const [pfpURL, setPfpURL] = useState("");
 
-   const [open, setOpen] = useState(false);
+   const [openQR, setOpenQR] = useState(false);
+   const [openSB, setOpenSB] = useState(false);
 
    const handleClickOpen = () => {
-      setOpen(true);
+      setOpenQR(true);
    };
 
    const handleClose = () => {
-      setOpen(false);
+      setOpenQR(false);
+   };
+
+   const handleClickOpenSnackbar = () => {
+      setOpenSB(true);
+   };
+
+   const handleCloseSnackbar = () => {
+      setOpenSB(false);
    };
 
    const clickLink = (btn) => {
@@ -34,26 +46,28 @@ const ProfileHeader = (props) => {
       }
    }
 
-
+   const handleShare = () => {
+      setOpenSB(true);
+      let copy = "https://solspot.xyz/" + wallet_address;
+      navigator.clipboard.writeText(copy);
+   };
 
    const Links = () => {
       return (
          <div className={styles.linksList} >
-            <a className={styles.linkListButton} href={clickLink("sol")}>
+            <a className={styles.linkListButton} href={clickLink("sol")} target="_blank" rel="noreferrer">
                <SolanaLogo className={styles.linkListButtonIcon} />
             </a>
-
             <Twitter wallet_address={wallet_address} />
             <a className={styles.linkListButton} href={clickLink("qr")}>
                <QRIcon onClick={handleClickOpen} className={styles.linkListButtonIcon} />
             </a>
             <a className={styles.linkListButton} href={clickLink("qr")}>
-               < ShareIcon className={styles.linkListButtonIcon} wallet_id={wallet_address} />
-            </a >
+               <ShareIcon onClick={handleShare} className={styles.linkListButtonIcon} wallet_id={wallet_address} />
+            </a>
          </div >
       )
    }
-
 
    // UseEffects
    useEffect(async () => {
@@ -87,9 +101,15 @@ const ProfileHeader = (props) => {
 
    return (
       <div className={styles.profileHeaderRoot}>
+         <Snackbar
+            open={openSB}
+            autoHideDuration={2000}
+            onClose={handleCloseSnackbar}
+            message="Copied to clipboard"
+         />
          <div className={styles.profileHeaderUpperContainer}>
             {pfpURL !== "" && <img className={styles.pfpImage} src={pfpURL} />}
-            {pfpURL == "" && <div className={styles.pfpImage} />}
+            {pfpURL == "" && <DefaultAccountIcon className={styles.pfpImageDefault} />}
 
 
             <Domain wallet_address={wallet_address} />
@@ -98,7 +118,7 @@ const ProfileHeader = (props) => {
          </div>
          <Links />
          <QRCodeDialog
-            open={open}
+            open={openQR}
             onClose={handleClose}
             wallet_address={wallet_address}
          />

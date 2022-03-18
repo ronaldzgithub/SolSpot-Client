@@ -15,6 +15,7 @@ const NFTShowCase = (props) => {
       if (loaded) {
          return (
             <div className={styles.nftRow_loaded}>
+               {fullNftArr.length > 0 && <p className={styles.nftTitle}>Gallery</p>}
                {fullNftArr.slice(0, renderedNFTs).map((item, id) => (
                   <a className={styles.nftCard} key={id} href={formatURL(item.token_id)} target="_blank" rel="noopener">
                      <img src={item.img_url} alt="nfts owned by this profile" className={styles.nftImg} />
@@ -30,6 +31,7 @@ const NFTShowCase = (props) => {
       else if (!loaded) {
          return (
             <div className={styles.cardRow_loading}>
+               {fullNftArr.length > 0 && <p className={styles.nftTitle}>Gallery</p>}
                <div className={styles.loadingCard} />
                <div className={styles.loadingCard} />
                <div className={styles.loadingCard} />
@@ -50,10 +52,11 @@ const NFTShowCase = (props) => {
 
    return (
       <div className={styles.nftShowcaseRoot}>
-         {fullNftArr.length > 0 && <p className={styles.nftTitle}>NFTs</p>}
          < RenderImages />
       </div >
    )
 };
 
 export default NFTShowCase;
+
+// 

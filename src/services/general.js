@@ -8,7 +8,7 @@ const formatAddress = (address) => {
 }
 
 const initConnection = () => {
-   return new web3.Connection(web3.clusterApiUrl("mainnet-beta"));
+   return new web3.Connection("https://ssc-dao.genesysgo.net/", "confirmed");
 }
 
 const getNFTData = async (address) => {
@@ -16,7 +16,7 @@ const getNFTData = async (address) => {
       if (address == undefined) return
 
       // mainnet-beta or devnet
-      let connection = new web3.Connection(web3.clusterApiUrl("mainnet-beta"));
+      let connection = new web3.Connection("https://ssc-dao.genesysgo.net/", "confirmed");
 
       if (address !== null) {
          const nftMetadata = await Metadata.findDataByOwner(
@@ -34,7 +34,12 @@ const getNFTData = async (address) => {
             })
          }
 
+         console.log(nftMetadata);
          let end = nftMetadata.length;
+
+         if (end > 8) {
+            end = 8;
+         }
 
          // Get url of each image
          for (let i = 0; i < end; i++) {

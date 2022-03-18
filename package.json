@@ -1,66 +1,68 @@
 {
-  "name": "solspot",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@bonfida/spl-name-service": "^0.1.24",
-    "@emotion/react": "^11.8.1",
-    "@emotion/styled": "^11.8.1",
-    "@metaplex-foundation/mpl-token-metadata": "^1.2.0",
-    "@mui/material": "^5.4.2",
-    "@project-serum/anchor": "^0.21.0",
-    "@solana/wallet-adapter-base": "^0.9.4",
-    "@solana/wallet-adapter-react": "^0.15.3",
-    "@solana/wallet-adapter-react-ui": "^0.9.5",
-    "@solana/wallet-adapter-wallets": "^0.15.4",
-    "@solana/web3.js": "^1.34.0",
-    "@testing-library/jest-dom": "^5.16.1",
-    "@testing-library/react": "^12.1.2",
-    "@testing-library/user-event": "^13.5.0",
-    "firebase": "^9.6.8",
-    "qrcode.react": "^1.0.1",
-    "react": "^17.0.2",
-    "react-beautiful-dnd": "^13.1.0",
-    "react-dom": "^17.0.2",
-    "react-router-dom": "^6.2.1",
-    "react-scripts": "5.0.0",
-    "react-tsparticles": "^1.41.4",
-    "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "assert": "^2.0.0",
-    "buffer": "^6.0.3",
-    "crypto-browserify": "^3.12.0",
-    "https-browserify": "^1.0.0",
-    "os-browserify": "^0.3.0",
-    "process": "^0.11.10",
-    "react-app-rewired": "^2.1.11",
-    "stream-browserify": "^3.0.0",
-    "stream-http": "^3.2.0",
-    "url": "^0.11.0"
-  }
+   "name": "solspot",
+   "version": "0.1.0",
+   "private": true,
+   "dependencies": {
+      "@bonfida/spl-name-service": "^0.1.24",
+      "@emotion/react": "^11.8.1",
+      "@emotion/styled": "^11.8.1",
+      "@metaplex-foundation/mpl-token-metadata": "^1.2.0",
+      "@mui/material": "^5.4.2",
+      "@project-serum/anchor": "^0.21.0",
+      "@solana/wallet-adapter-base": "^0.9.4",
+      "@solana/wallet-adapter-react": "^0.15.3",
+      "@solana/wallet-adapter-react-ui": "^0.9.5",
+      "@solana/wallet-adapter-wallets": "^0.15.4",
+      "@solana/web3.js": "^1.34.0",
+      "@testing-library/jest-dom": "^5.16.1",
+      "@testing-library/react": "^12.1.2",
+      "@testing-library/user-event": "^13.5.0",
+      "firebase": "^9.6.8",
+      "qrcode.react": "^1.0.1",
+      "react": "^17.0.2",
+      "react-beautiful-dnd": "^13.1.0",
+      "react-color": "^2.19.3",
+      "react-dom": "^17.0.2",
+      "react-ga": "^3.3.0",
+      "react-router-dom": "^6.2.1",
+      "react-scripts": "5.0.0",
+      "react-tsparticles": "^1.41.4",
+      "web-vitals": "^2.1.4"
+   },
+   "scripts": {
+      "start": "react-app-rewired start",
+      "build": "react-app-rewired build",
+      "test": "react-app-rewired test",
+      "eject": "react-scripts eject"
+   },
+   "eslintConfig": {
+      "extends": [
+         "react-app",
+         "react-app/jest"
+      ]
+   },
+   "browserslist": {
+      "production": [
+         ">0.2%",
+         "not dead",
+         "not op_mini all"
+      ],
+      "development": [
+         "last 1 chrome version",
+         "last 1 firefox version",
+         "last 1 safari version"
+      ]
+   },
+   "devDependencies": {
+      "assert": "^2.0.0",
+      "buffer": "^6.0.3",
+      "crypto-browserify": "^3.12.0",
+      "https-browserify": "^1.0.0",
+      "os-browserify": "^0.3.0",
+      "process": "^0.11.10",
+      "react-app-rewired": "^2.1.11",
+      "stream-browserify": "^3.0.0",
+      "stream-http": "^3.2.0",
+      "url": "^0.11.0"
+   }
 }

@@ -4,7 +4,7 @@ import Dialog from '@mui/material/Dialog';
 import QRCode from "qrcode.react";
 import styles from './qrCodeDialog.module.css'
 
-let siteRoot = "http://localhost:3000/";
+let siteRoot = "http://solspot.xyz/";
 
 const QRCodeDialog = (props) => {
    const [QR_URL, setQR_URL] = useState("");

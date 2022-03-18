@@ -59,7 +59,7 @@ const App = () => {
                   <Routes>
                      <Route path='/' element={<Home />} />
                      <Route path='/create' element={<Create />} />
-                     <Route path='/:searchedPublicKey' element={<Spot />} />
+                     <Route path='/:searchedKey' element={<Spot />} />
                      <Route path="*" element={<Home />} />
                   </Routes>
                </Router>

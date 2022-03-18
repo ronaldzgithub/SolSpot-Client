@@ -10,13 +10,13 @@ const PillarsComp = () => {
    return (
       <div className={styles.solspotPillars}>
          <RightSemiCircleSVG className={styles.rightSemiCircleSVG} />
-         <h2>Solspot is all about you</h2>
+         <h2>All about Solspot</h2>
          <div className={styles.itemContainer}>
             <div className={styles.item}>
                <BrushIcon className={styles.icon} style={{ backgroundColor: "#EDAEF9" }} />
                <h4>Personalized</h4>
                <p>
-                  Profiles can be customized to make each one unique and personal.
+                  Each profile can be customized in a way that makes it unique and personal!
                </p>
             </div>
             <div className={styles.item}>

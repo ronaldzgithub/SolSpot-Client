@@ -27,14 +27,36 @@ https://www.abiraja.com/blog/querying-solana-blockchain
 On-Chain Blog Tutorial
 https://learn.figment.io/tutorials/create-a-simple-blog-dapp-on-solana 
 
-background
+
+background (old)
 https://codepen.io/matteobruni/pen/qBPxjQY
+
 
 wallet adapter
 https://github.com/solana-labs/wallet-adapter 
 
+
 CSS Glass
 https://css.glass/ 
+
+
+Solscan API :)
+https://public-api.solscan.io/docs/ 
+
+
+Howarare.is API
+https://howrare.is/api 
+
+
+ME api
+https://api.magiceden.dev/#4525a74d-4b2b-44c0-9322-ee594fe3d767 
+
+
+SVG Converter
+https://react-svgr.com/playground/?svgo=false 
+
+
+
 
 # NFT address
 A67Ry58HhJs9FAz14K38cHRKoCFsnWyppRcCZD87B5Rf

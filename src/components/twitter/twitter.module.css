@@ -9,6 +9,15 @@
    align-items: center;
    cursor: pointer;
    margin: 0px 5px; 
+   -moz-transition: all .2s ease-in;
+   -o-transition: all .2s ease-in;
+   -webkit-transition: all .2s ease-in;
+   transition: all .2s ease-in;
+}
+
+.twitterChip:hover {
+   transform: scale(1.05);
+   filter: brightness(95%)
 }
 
 .twitterName {

@@ -18,45 +18,26 @@ import styles from "./home.module.css"
 const Home = () => {
    let navigate = useNavigate();
    const [account, setAcount] = useState("");
-   const [valid, setValid] = useState(false);
 
    const changeSearch = (event) => {
       event.preventDefault();
       setAcount(event.target.value);
    };
 
+   // 
    const handleSubmit = (event) => {
       event.preventDefault();
-      if (account.length === 44) {
-         navigate(`/${account}`);
-      }
+      navigate(`/${account}`);
    }
 
 
    const SearchBtn = () => {
-      if (valid) {
-         return (
-            <Link className={styles.goSearchBtn} to={`/${account}`}>
-               <SearchIcon className={styles.searchIcon} />
-            </Link>
-         )
-      } else {
-         return (
-            <Link className={styles.noSearchBtn} to={'/'} >
-               <SearchIcon className={styles.searchIcon} />
-            </Link >
-         )
-
-      }
+      return (
+         <Link className={styles.goSearchBtn} to={`/${account}`}>
+            <SearchIcon className={styles.searchIcon} />
+         </Link>
+      )
    };
-
-   useEffect(() => {
-      if (account.length === 44) {
-         setValid(true);
-      } else {
-         setValid(false);
-      }
-   }, [account]);
 
    return (
       <div className={styles.root}>
@@ -87,7 +68,6 @@ const Home = () => {
                   </div>
                </div>
 
-
                <h1>create your digital identity</h1>
                <h4>Your forever you, stored directly on Solana. Personalize your spot in the Solanaverse.</h4>
 
@@ -101,6 +81,7 @@ const Home = () => {
             <RightSemiCircleSVGWhite className={styles.rightSemiCircleSVG} />
 
          </div>
+
          <IntroBlock />
          <PillarsComp />
          <DescriptionComp />

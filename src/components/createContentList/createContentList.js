@@ -30,6 +30,8 @@ const getItemStyle = (isDragging, draggableStyle) => ({
    ...draggableStyle
 });
 
+
+
 const CreateContentList = (props) => {
    const [items, setItems] = useState([]);
 
@@ -51,6 +53,9 @@ const CreateContentList = (props) => {
 
    const simpleAddContent = () => {
       // make sure it auto sends to bottom
+
+      if (items.length > 8) return;
+
       let newItem = {
          "name": "",
          "url": "",
@@ -116,7 +121,7 @@ const CreateContentList = (props) => {
                                        provided.draggableProps.style
                                     )}
                                  >
-                                    <DragIcon className={styles.dragIcon} onClick={() => deleteItem(index)} />
+                                    <DragIcon className={styles.dragIcon} />
                                     <div className={styles.inputCol}>
                                        <input
                                           value={item.name}
@@ -144,14 +149,14 @@ const CreateContentList = (props) => {
                   )}
                </Droppable>
             </DragDropContext>
-            <button onClick={() => simpleAddContent()} className={styles.addLinkBtn}>Add New Item</button>
+            <button onClick={() => simpleAddContent()} className={styles.addLinkBtn}>Add New Item <p style={{ fontSize: 16 }}>{items.length}/8</p></button>
          </div>
       );
    } else {
       return (
          <div className={styles.contentListRoot}>
             <h2 className={styles.widgetTitle}>Content List</h2>
-            <button onClick={() => simpleAddContent()} className={styles.addLinkBtn}>Add New Item</button>
+            <button onClick={() => simpleAddContent()} className={styles.addLinkBtn}>Add New Item <p style={{ fontSize: 16 }}>{items.length}/8</p></button>
          </div>
       );
    }

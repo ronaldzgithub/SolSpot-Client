@@ -11,7 +11,7 @@ const Twitter = (props) => {
    const [urlLoaded, setUrlLoaded] = useState(null);
 
    const wallet_address = props.wallet_address;
-   let connection = new web3.Connection(web3.clusterApiUrl("mainnet-beta"));
+   let connection = new web3.Connection("https://ssc-dao.genesysgo.net/", "confirmed");
 
 
    const getTwitterHandle = async (passed_wallet_address) => {
@@ -55,9 +55,7 @@ const Twitter = (props) => {
       }
       else {
          return (
-            <div className={styles.twitterChip}>
-               <p className={styles.twitterName}>NA</p>
-            </div>
+            <></>
          )
       }
    }

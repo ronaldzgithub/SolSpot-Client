@@ -37,6 +37,19 @@
    margin-top: -80px;
 }
 
+.pfpImageDefault {
+   all: unset;
+   fill: lightgray;
+   height: 130px;
+   width: 130px;
+   border-radius: 50%;
+   border-width: 8px;
+   border-color: #fdfdfd;
+   background-color: #fdfdfd;
+   border-style: solid;
+   margin-top: -80px;
+}
+
 .shortenedAddress {
 	font-size: 16px;
    font-family: Quicksand;
@@ -70,6 +83,15 @@
    flex-direction: column;
    align-items: center;
    cursor: pointer;
+   -moz-transition: all .2s ease-in;
+   -o-transition: all .2s ease-in;
+   -webkit-transition: all .2s ease-in;
+   transition: all .2s ease-in;
+}
+
+.linkListButton:hover {
+   transform: scale(1.05);
+   filter: brightness(95%)
 }
 
 .linkListButtonIcon {
@@ -86,7 +108,7 @@
    .profileHeaderRoot {
       width: 85%;
       border-radius: 14px;
-      min-height: 222px;
+      min-height: 122px;
    }
    
    .pfpImage {

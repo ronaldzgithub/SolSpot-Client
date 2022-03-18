@@ -10,7 +10,7 @@
    font-weight: 700;
    line-height: 1;
    margin: 15px 0px;
-   color: white;
+   color: black;
 }
 
 .linkItem {
@@ -64,10 +64,15 @@
    margin-left: 26px;
    height: 25px;
    padding: 6px;
+   -moz-transition: all .2s ease-in;
+   -o-transition: all .2s ease-in;
+   -webkit-transition: all .2s ease-in;
+   transition: all .2s ease-in;
 }
 
 .deleteIcon:hover {
-   background-color: purple;
+   transform: scale(1.05);
+   background-color: lightgray;
    border-radius: 50px;
 }
 
